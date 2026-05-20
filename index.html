@@ -787,8 +787,9 @@
       <a href="#failures"><span class="num">09</span><span class="bar"></span><span class="label">Failures</span></a>
       <a href="#scaling"><span class="num">10</span><span class="bar"></span><span class="label">Scaling</span></a>
       <a href="#repo"><span class="num">11</span><span class="bar"></span><span class="label">Our Repo</span></a>
-      <a href="#workshop"><span class="num">12</span><span class="bar"></span><span class="label">Workshop</span></a>
-      <a href="#coda"><span class="num">13</span><span class="bar"></span><span class="label">Coda</span></a>
+      <a href="#governance"><span class="num">12</span><span class="bar"></span><span class="label">Governance</span></a>
+      <a href="#workshop"><span class="num">13</span><span class="bar"></span><span class="label">Workshop</span></a>
+      <a href="#coda"><span class="num">14</span><span class="bar"></span><span class="label">Coda</span></a>
     </nav>
 
     <!-- ============================= 00 · COVER ============================= -->
@@ -810,8 +811,8 @@
           <div>
             <div>A Field<br />Manual for<br />Hospital Eng.</div>
           </div>
-          <div class="num">13</div>
-          <div>13 Chapters · 1 Workshop · ∞ Sessions</div>
+          <div class="num">14</div>
+          <div>14 Chapters · 1 Workshop · ∞ Sessions</div>
         </aside>
         <div class="stamp">Based on<br />Anthropic<br />Official Docs</div>
       </div>
@@ -827,7 +828,7 @@
           <span class="accent">REPO · JeecgBoot / hospital</span>
         </div>
       </div>
-      <div class="folio"><span>№ 01 · 2026.05</span><span>00 / 13 · COVER</span><span>↓ SCROLL OR PRESS SPACE</span></div>
+      <div class="folio"><span>№ 01 · 2026.05</span><span>00 / 14 · COVER</span><span>↓ SCROLL OR PRESS SPACE</span></div>
     </section>
 
     <!-- ============================= 01 · PROLOGUE ============================= -->
@@ -865,16 +866,27 @@
         都是为了一件事：<strong>把上下文当作最稀缺的资源来管理</strong>。
       </p>
 
-      <div class="folio"><span>№ 01</span><span>01 / 13 · PROLOGUE</span><span>UPSTAIRS</span></div>
+      <div class="folio"><span>№ 01</span><span>01 / 14 · PROLOGUE</span><span>UPSTAIRS</span></div>
     </section>
 
     <!-- ============================= 02 · MAP ============================= -->
     <section id="map" class="spread">
       <div class="eyebrow">Chapter 02 · 功能地图</div>
+
+      <div class="pull" style="margin: 0 0 50px; border-top-width: 1px;">
+        <q>决定上限的不是模型 —— 是模型<em style="color: var(--accent-deep);">外面那圈</em>。</q>
+        <cite>Anthropic · Claude Code at Scale · 2026</cite>
+      </div>
+
+      <p style="max-width: 64ch; margin: 0 0 36px; color: var(--ink-soft);">
+        官方原话是 <em>"the harness matters as much as the model"</em> —— 围绕模型搭起来的那一圈（CLAUDE.md · Hooks · Skills · Plugins · LSP · MCP · Subagents），
+        决定 Claude Code 的实际能力，比模型分数更甚。换 Opus 不会救你，搭好 harness 才会。
+      </p>
+
       <div class="asym">
         <div>
           <h2 class="headline">四层<br /><em>地图</em></h2>
-          <p class="deck">把 Claude Code 想象成四个同心圆。越往内层，越关乎你的<em>当下</em>对话；越往外层，越关乎你的<em>团队资产</em>。</p>
+          <p class="deck">把那"一圈"摊开，就是同心的四层。越往内层，越关乎你的<em>当下</em>对话；越往外层，越关乎你的<em>团队资产</em>。</p>
         </div>
         <div>
           <p>
@@ -944,7 +956,7 @@
         <span class="src">Source · Anthropic Docs / Overview</span>
       </div>
 
-      <div class="folio"><span>№ 01</span><span>02 / 13 · THE MAP</span><span>FOUR CONCENTRIC RINGS</span></div>
+      <div class="folio"><span>№ 01</span><span>02 / 14 · THE MAP</span><span>FOUR CONCENTRIC RINGS</span></div>
     </section>
 
     <!-- ============================= 03 · LAYERS ============================= -->
@@ -1025,7 +1037,7 @@
         </div>
       </div>
 
-      <div class="folio"><span>№ 01</span><span>03 / 13 · THE THREE LAYERS</span><span>USE THE RIGHT LAYER</span></div>
+      <div class="folio"><span>№ 01</span><span>03 / 14 · THE THREE LAYERS</span><span>USE THE RIGHT LAYER</span></div>
     </section>
 
     <!-- ============================= 04 · WORKFLOW ============================= -->
@@ -1078,7 +1090,7 @@
         </div>
       </div>
 
-      <div class="folio"><span>№ 01</span><span>04 / 13 · WORKFLOW</span><span>SEPARATE THINK FROM DO</span></div>
+      <div class="folio"><span>№ 01</span><span>04 / 14 · WORKFLOW</span><span>SEPARATE THINK FROM DO</span></div>
     </section>
 
     <!-- ============================= 05 · VERIFY ============================= -->
@@ -1124,7 +1136,7 @@
         <span class="src">本仓库 · <code>.claude/skills/verify/SKILL.md</code></span>
       </div>
 
-      <div class="folio"><span>№ 01</span><span>05 / 13 · VERIFICATION</span><span>HIGHEST-LEVERAGE PRACTICE</span></div>
+      <div class="folio"><span>№ 01</span><span>05 / 14 · VERIFICATION</span><span>HIGHEST-LEVERAGE PRACTICE</span></div>
     </section>
 
     <!-- ============================= 06 · CLAUDE.md ============================= -->
@@ -1191,13 +1203,66 @@
         </div>
       </div>
 
+      <hr class="rule" />
+
+      <div class="asym-r">
+        <div>
+          <h3 style="font-size: 36px; margin: 0 0 12px; font-family: var(--font-display);">一部宪法<br /><em style="color: var(--accent-deep); font-style: italic;">＋ 一份地方性法规</em>。</h3>
+          <p>
+            根目录 <code>CLAUDE.md</code> 定<strong>基调</strong>：项目是什么、架构怎么分、有哪些踩坑区。
+            子目录 <code>CLAUDE.md</code> 定<strong>地方规矩</strong>：跑哪条命令、用哪个测试入口、本模块的特有约定。
+          </p>
+          <p>
+            官方建议：<em>命令应当声明在最靠近"它真正运行的地方"</em>。
+            根目录写 <code>mvn clean compile</code> 是浪费 —— 模块根目录写才有用，因为那是命令真的能跑通的地方。
+          </p>
+        </div>
+        <div>
+<pre style="font-size: 12px; box-shadow: 4px 4px 0 var(--accent); margin-top: 0;"><span class="cmt"># 根 · 定基调</span>
+JeecgBoot/CLAUDE.md
+  ├─ 项目是什么
+  ├─ 模块图 / 架构
+  └─ 全局约定
+
+<span class="cmt"># 子目录 · 定命令</span>
+.../jeecg-module-his-zhiye/<span class="kw">CLAUDE.md</span>
+  ├─ 本模块跑什么 lint
+  ├─ 本模块测什么用例
+  └─ 本模块特有的坑
+
+<span class="cmt"># Claude 在该目录工作时</span>
+<span class="cmt"># 会自动加载它，不会污染别处</span></pre>
+        </div>
+      </div>
+
+      <hr class="rule" />
+
+      <div class="two-col">
+        <div>
+          <h3 style="font-size: 36px; margin: 0 0 12px; font-family: var(--font-display);">约束<em style="color: var(--accent-deep); font-style: italic;">有保质期</em>。</h3>
+          <p>
+            <strong>每 3–6 个月，或每次模型大版本之后，回头审一遍 CLAUDE.md</strong>。
+            旧模型时代写下的"安全网"，到新模型上常常变成束缚。
+          </p>
+        </div>
+        <div>
+          <p>
+            一个真实例子：旧模型容易把跨文件改动搞乱，于是有团队在 CLAUDE.md 里写"一次只改一个文件"。
+            新模型完全能处理协调的多文件编辑 —— 这条规则就从护栏变成了限速带。
+          </p>
+          <p style="font-size: 15px; color: var(--ink-soft);">
+            <strong>翻修清单：</strong>哪条规则去年很重要、今年看是冗余的？哪条还在天天被违反、其实该改成 hook？哪条根本没人记得为啥写的？
+          </p>
+        </div>
+      </div>
+
       <div class="margin-note" style="margin-top: 40px;">
         <strong>失败信号：</strong>如果 Claude 反复违反 CLAUDE.md 里的某条规则 ——
         不是它笨，是规则被噪声淹没了。删 50% 内容比加"IMPORTANT"前缀更有效。
         <span class="src">Source · Best Practices §CLAUDE.md</span>
       </div>
 
-      <div class="folio"><span>№ 01</span><span>06 / 13 · CLAUDE.md DISCIPLINE</span><span>PRUNE RUTHLESSLY</span></div>
+      <div class="folio"><span>№ 01</span><span>06 / 14 · CLAUDE.md DISCIPLINE</span><span>PRUNE · LAYER · REVISIT</span></div>
     </section>
 
     <!-- ============================= 07 · CONTEXT ============================= -->
@@ -1255,7 +1320,7 @@ system handles token refresh. report findings.</pre>
         </div>
       </div>
 
-      <div class="folio"><span>№ 01</span><span>07 / 13 · CONTEXT</span><span>YOUR ONE CONSTRAINT</span></div>
+      <div class="folio"><span>№ 01</span><span>07 / 14 · CONTEXT</span><span>YOUR ONE CONSTRAINT</span></div>
     </section>
 
     <!-- ============================= 08 · PROMPT ============================= -->
@@ -1316,7 +1381,7 @@ system handles token refresh. report findings.</pre>
         </div>
       </div>
 
-      <div class="folio"><span>№ 01</span><span>08 / 13 · PROMPT PRECISION</span><span>SPECIFICITY WINS</span></div>
+      <div class="folio"><span>№ 01</span><span>08 / 14 · PROMPT PRECISION</span><span>SPECIFICITY WINS</span></div>
     </section>
 
     <!-- ============================= 09 · FAILURES ============================= -->
@@ -1386,7 +1451,7 @@ system handles token refresh. report findings.</pre>
         </div>
       </div>
 
-      <div class="folio"><span>№ 01</span><span>09 / 13 · FAILURE PATTERNS</span><span>RECOGNIZE THEM EARLY</span></div>
+      <div class="folio"><span>№ 01</span><span>09 / 14 · FAILURE PATTERNS</span><span>RECOGNIZE THEM EARLY</span></div>
     </section>
 
     <!-- ============================= 10 · SCALING ============================= -->
@@ -1451,7 +1516,7 @@ done</pre>
         </div>
       </div>
 
-      <div class="folio"><span>№ 01</span><span>10 / 13 · SCALING OUT</span><span>HORIZONTAL ×4</span></div>
+      <div class="folio"><span>№ 01</span><span>10 / 14 · SCALING OUT</span><span>HORIZONTAL ×4</span></div>
     </section>
 
     <!-- ============================= 11 · REPO ============================= -->
@@ -1515,12 +1580,106 @@ done</pre>
         <span class="src">本次培训产出物</span>
       </div>
 
-      <div class="folio"><span>№ 01</span><span>11 / 13 · OUR REPO</span><span>YOU ALREADY HAVE A LIBRARY</span></div>
+      <div class="folio"><span>№ 01</span><span>11 / 14 · OUR REPO</span><span>YOU ALREADY HAVE A LIBRARY</span></div>
     </section>
 
-    <!-- ============================= 12 · WORKSHOP ============================= -->
+    <!-- ============================= 12 · GOVERNANCE ============================= -->
+    <section id="governance" class="spread">
+      <div class="eyebrow">Chapter 12 · 团队治理</div>
+      <h2 class="headline">工具有了 ——<br /><em>谁来管</em>这套工具？</h2>
+      <p class="deck">
+        Anthropic 把这一题单列出来是有原因的：受监管行业、跨团队协作、上千人规模 ——
+        Claude Code 的成败一半在配置，一半在<em>谁负责</em>那份配置。
+      </p>
+
+      <div class="three-col" style="margin-top: 40px;">
+        <div class="card accent">
+          <div class="corner">Role</div>
+          <div class="meta">Directly Responsible Individual</div>
+          <h3>设一个 <em>DRI</em></h3>
+          <p style="font-size: 14px; color: var(--ink-soft);">
+            根 <code>CLAUDE.md</code>、<code>.claude/rules/</code>、<code>.claude/skills/</code>、<code>settings.json</code> ——
+            这些都是<strong>代码资产</strong>，要有人负责。新出现的角色叫 <em>agent manager</em>：一半 PM 一半工程师。
+          </p>
+        </div>
+        <div class="card">
+          <div class="corner">Catalog</div>
+          <div class="meta">Skills · Plugins · MCP</div>
+          <h3><em>审批</em>，然后共享</h3>
+          <p style="font-size: 14px; color: var(--ink-soft);">
+            谁都能写 skill，但<strong>哪些 skill 被推荐</strong>需要审批：安全、合规、与已有工作流是否重叠。
+            通过的进 <code>.claude/skills/</code> 或内部 plugin marketplace —— 不要让好做法停留在某个人的笔记里。
+          </p>
+        </div>
+        <div class="card">
+          <div class="corner">Review</div>
+          <div class="meta">Code Review · Same Bar</div>
+          <h3>走 <em>同一道</em>审查</h3>
+          <p style="font-size: 14px; color: var(--ink-soft);">
+            AI 写的代码不享受特殊待遇 —— PR 评审、测试要求、合规检查跟人写的代码<strong>一字不差</strong>。
+            Claude 帮你写得更快，不帮你绕过审查。
+          </p>
+        </div>
+      </div>
+
+      <hr class="thick" />
+
+      <h3 style="font-size: 36px; margin: 0 0 12px; font-family: var(--font-display);">放权的节奏：<em>先收紧，再放大</em>。</h3>
+      <p style="max-width: 64ch;">
+        官方观察到的成功路径不是"一夜之间全员开放"，而是<strong>基础设施先行，访问权后到</strong>。
+        从安全和监管角度，这也是医院团队该走的节奏。
+      </p>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-n">i.</div>
+          <h3>基建</h3>
+          <div class="mode">Infrastructure First</div>
+          <p>先把 CLAUDE.md、rules、verify hook、内部 MCP 服务搭起来。<em>没基建就开放 = 各干各的</em>。</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-n">ii.</div>
+          <h3>小圈试</h3>
+          <div class="mode">Restricted Pilot</div>
+          <p>少数人 · 经审批的 skill · 必走 code review。看清问题、攒经验。</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-n">iii.</div>
+          <h3>跨职能定规矩</h3>
+          <div class="mode">Eng + Security + Governance</div>
+          <p>工程、安全、合规一桌讨论：什么数据可以进对话、什么命令必须 hook 拦截、哪些目录 deny。</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-n">iv.</div>
+          <h3>扩面</h3>
+          <div class="mode">Expand with Confidence</div>
+          <p>跑顺了再扩 —— 更多人、更多 skill、更多自动化。<em>有信心地放，不是赌博式地放。</em></p>
+        </div>
+      </div>
+
+      <div class="two-col" style="margin-top: 50px;">
+        <div class="margin-note">
+          <strong>医院场景的特别提醒：</strong>HIS / 电子病历 / 患者信息是受监管数据。
+          先约定<em>哪些目录禁止 Claude 接触</em>（用 <code>.claude/settings.json</code> 的 <code>permissions.deny</code> 与 <code>.ignore</code> 规则），
+          再放开访问。不是不能用，是要在围栏内用。
+          <span class="src">Source · Claude Code at Scale §Regulated</span>
+        </div>
+        <div class="margin-note">
+          <strong>给本团队的具体动作：</strong>
+          指定一位 DRI（建议张毅）·
+          建一个内部 channel 收集"我又给 Claude 解释了一遍的事" ·
+          每月 1 次 skills/rules PR review 会 ·
+          每季度审一次 CLAUDE.md（呼应第 06 章"约束有保质期"）。
+          <span class="src">本仓库 · 团队约定</span>
+        </div>
+      </div>
+
+      <div class="folio"><span>№ 01</span><span>12 / 14 · GOVERNANCE</span><span>WHO OWNS THE HARNESS</span></div>
+    </section>
+
+    <!-- ============================= 13 · WORKSHOP ============================= -->
     <section id="workshop" class="spread">
-      <div class="eyebrow">Chapter 12 · 半日 workshop</div>
+      <div class="eyebrow">Chapter 13 · 半日 workshop</div>
       <h2 class="headline">理论<em>30%</em> · 实战<em>50%</em> · <span class="stroke">沉淀 20%</span></h2>
       <p class="deck">看文档的培训，团队最多能从 30% 用到 50%。带着仓库练一遍 + 当场沉淀，能到 70-80%。</p>
 
@@ -1580,12 +1739,12 @@ done</pre>
         </div>
       </div>
 
-      <div class="folio"><span>№ 01</span><span>12 / 13 · WORKSHOP</span><span>HALF-DAY · 4 HOURS</span></div>
+      <div class="folio"><span>№ 01</span><span>13 / 14 · WORKSHOP</span><span>HALF-DAY · 4 HOURS</span></div>
     </section>
 
-    <!-- ============================= 13 · CODA ============================= -->
+    <!-- ============================= 14 · CODA ============================= -->
     <section id="coda" class="spread">
-      <div class="eyebrow">Chapter 13 · 终章</div>
+      <div class="eyebrow">Chapter 14 · 终章</div>
       <div class="coda">
         <p class="big">
           所有的<em>模式</em> ——<br />
@@ -1621,7 +1780,7 @@ done</pre>
         </div>
       </div>
 
-      <div class="folio"><span>№ 01</span><span>13 / 13 · CODA</span><span>END</span></div>
+      <div class="folio"><span>№ 01</span><span>14 / 14 · CODA</span><span>END</span></div>
     </section>
 
     <script>
