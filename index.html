@@ -7,87 +7,120 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=JetBrains+Mono:wght@300;400;500;700&family=Noto+Serif+SC:wght@300;400;600;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
-        --paper: #f1ead9;
-        --paper-deep: #e6dcc5;
-        --paper-shadow: rgba(58, 47, 32, 0.08);
-        --ink: #14110d;
-        --ink-soft: #4a4135;
-        --ink-faint: #7b6f5d;
-        --accent: #dc4a1e;
-        --accent-deep: #8d2810;
-        --blue: #1f3a5f;
-        --rule: rgba(20, 17, 13, 0.22);
-        --rule-soft: rgba(20, 17, 13, 0.1);
+        /* === Surface (LIGHT theme, projection-friendly) === */
+        --bg: #fafbfc;
+        --bg-elevated: #ffffff;
+        --bg-soft: #f1f3f5;
+        --bg-code: #0d1117;          /* keep code blocks dark for contrast */
 
-        --font-display: 'Instrument Serif', 'Noto Serif SC', 'Songti SC', serif;
-        --font-body: 'Newsreader', 'Noto Serif SC', 'Songti SC', serif;
+        /* === Borders === */
+        --border: rgba(15, 23, 42, 0.10);
+        --border-strong: rgba(15, 23, 42, 0.22);
+
+        /* === Text (high-contrast on white for projector) === */
+        --text: #0f172a;
+        --text-soft: #475569;
+        --text-faint: #64748b;
+
+        /* === Accent (deeper cyan — pops on white, survives washout) === */
+        --accent: #0891b2;
+        --accent-deep: #0e7490;
+        --accent-glow: rgba(8, 145, 178, 0.08);
+        --warn: #c2410c;
+        --ok: #15803d;
+
+        /* === Type === */
+        --font-display: 'Inter Tight', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+        --font-body: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
         --font-mono: 'JetBrains Mono', 'Cascadia Code', ui-monospace, monospace;
+
+        /* === Legacy aliases — keep existing inline `var(--ink…)` working === */
+        --paper: var(--bg);
+        --paper-deep: var(--bg-elevated);
+        --ink: var(--text);
+        --ink-soft: var(--text-soft);
+        --ink-faint: var(--text-faint);
+        --rule: var(--border-strong);
+        --rule-soft: var(--border);
+        --blue: var(--ok);
       }
 
-      * {
-        box-sizing: border-box;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
 
       body {
         margin: 0;
-        background: var(--paper);
-        color: var(--ink);
+        background: var(--bg);
+        color: var(--text);
         font-family: var(--font-body);
-        font-optical-sizing: auto;
-        font-weight: 380;
-        font-size: 17px;
-        line-height: 1.55;
+        font-size: 18px;             /* bumped from 16 for projection */
+        line-height: 1.62;
+        font-weight: 400;
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
         overflow-x: hidden;
+        font-feature-settings: 'ss01', 'cv11';
       }
 
-      /* paper grain */
+      /* very faint cyan glow — provides texture without breaking light theme */
       body::before {
         content: '';
         position: fixed;
         inset: 0;
         pointer-events: none;
         z-index: 1;
-        opacity: 0.4;
-        mix-blend-mode: multiply;
-        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.08  0 0 0 0 0.07  0 0 0 0 0.05  0 0 0 0.22 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+        background:
+          radial-gradient(900px circle at 85% -10%, var(--accent-glow), transparent 60%),
+          radial-gradient(700px circle at -5% 95%, rgba(8, 145, 178, 0.04), transparent 65%);
       }
+
+      ::selection { background: var(--accent); color: #ffffff; }
 
       /* ============================ MASTHEAD ============================ */
       .masthead {
         position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
+        top: 0; left: 0; right: 0;
         z-index: 30;
         display: grid;
         grid-template-columns: 1fr auto 1fr;
         align-items: center;
         gap: 24px;
         padding: 14px 36px;
-        border-bottom: 1px solid var(--rule);
-        background: color-mix(in srgb, var(--paper) 92%, transparent);
-        backdrop-filter: blur(6px);
+        border-bottom: 1px solid var(--border);
+        background: rgba(250, 251, 252, 0.78);
+        backdrop-filter: blur(14px) saturate(180%);
+        -webkit-backdrop-filter: blur(14px) saturate(180%);
         font-family: var(--font-mono);
-        font-size: 11px;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: var(--ink-soft);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        color: var(--text-soft);
       }
-      .masthead .left { justify-self: start; }
-      .masthead .center { justify-self: center; font-family: var(--font-display); font-style: italic; font-size: 19px; letter-spacing: 0; text-transform: none; color: var(--ink); }
-      .masthead .right { justify-self: end; }
-      .masthead .dot { display: inline-block; width: 7px; height: 7px; background: var(--accent); border-radius: 999px; margin: 0 8px; transform: translateY(-1px); }
+      .masthead .left { justify-self: start; text-transform: uppercase; }
+      .masthead .center {
+        justify-self: center;
+        font-family: var(--font-display);
+        font-style: normal;
+        font-size: 15px;
+        letter-spacing: -0.01em;
+        text-transform: none;
+        color: var(--text);
+        font-weight: 500;
+      }
+      .masthead .right { justify-self: end; text-transform: uppercase; }
+      .masthead .dot {
+        display: inline-block;
+        width: 6px; height: 6px;
+        background: var(--accent);
+        border-radius: 999px;
+        margin: 0 8px;
+        transform: translateY(-1px);
+        box-shadow: 0 0 8px var(--accent);
+      }
 
       /* ============================ MARGIN INDEX ============================ */
       .index {
@@ -100,160 +133,186 @@
         flex-direction: column;
         gap: 9px;
         font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.12em;
+        font-size: 11px;
+        letter-spacing: 0.08em;
       }
       .index a {
         display: flex;
         align-items: center;
         gap: 8px;
-        color: var(--ink-faint);
+        color: var(--text-faint);
         text-decoration: none;
         transition: color 0.2s, transform 0.2s;
       }
       .index a .num { width: 22px; text-align: right; }
-      .index a .bar { width: 22px; height: 1px; background: var(--ink-faint); transition: width 0.3s, background 0.3s; }
+      .index a .bar { width: 22px; height: 1px; background: currentColor; transition: width 0.3s; }
       .index a .label { opacity: 0; transform: translateX(-4px); transition: opacity 0.2s, transform 0.2s; text-transform: uppercase; }
-      .index a:hover { color: var(--accent); }
-      .index a:hover .bar { width: 36px; background: var(--accent); }
+      .index a:hover, .index a.active { color: var(--accent); }
+      .index a:hover .bar, .index a.active .bar { width: 36px; }
       .index a:hover .label { opacity: 1; transform: translateX(0); }
-      .index a.active { color: var(--accent); }
-      .index a.active .bar { width: 36px; background: var(--accent); }
 
       /* ============================ SECTION SHELL ============================ */
       section.spread {
         position: relative;
         min-height: 100vh;
-        padding: 110px 8vw 80px;
+        padding: 120px 8vw 100px;
         max-width: 1400px;
         margin: 0 auto;
         z-index: 2;
-        border-bottom: 1px solid var(--rule-soft);
+        border-bottom: 1px solid var(--border);
       }
       section.spread:last-of-type { border-bottom: none; }
 
       .folio {
         position: absolute;
-        bottom: 24px;
+        bottom: 28px;
         left: 8vw;
         right: 8vw;
         display: flex;
         justify-content: space-between;
         align-items: baseline;
         font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.18em;
+        font-size: 11px;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
-        color: var(--ink-faint);
-        border-top: 1px solid var(--rule-soft);
-        padding-top: 12px;
+        color: var(--text-faint);
+        border-top: 1px solid var(--border);
+        padding-top: 14px;
       }
 
       .eyebrow {
         font-family: var(--font-mono);
-        font-size: 11px;
-        letter-spacing: 0.22em;
+        font-size: 12px;
+        letter-spacing: 0.16em;
         text-transform: uppercase;
         color: var(--accent);
-        margin-bottom: 22px;
+        margin-bottom: 28px;
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
+        font-weight: 500;
       }
       .eyebrow::before {
         content: '';
-        width: 28px;
+        width: 24px;
         height: 1px;
         background: var(--accent);
       }
 
-      h1, h2, h3 { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.01em; }
+      /* ============================ TYPOGRAPHY ============================ */
+      h1, h2, h3 {
+        font-family: var(--font-display);
+        font-weight: 400;
+        letter-spacing: -0.025em;
+        color: var(--text);
+      }
 
       h2.headline {
-        font-size: clamp(48px, 6.4vw, 96px);
-        line-height: 0.96;
+        font-size: clamp(40px, 5.4vw, 80px);
+        line-height: 1.04;
+        font-weight: 300;
         margin: 0 0 32px;
-        color: var(--ink);
-        font-feature-settings: 'liga', 'dlig';
+        letter-spacing: -0.03em;
       }
-      h2.headline em { font-style: italic; color: var(--accent-deep); }
+      h2.headline em {
+        font-style: normal;
+        color: var(--accent);
+        font-weight: 500;
+      }
       h2.headline .stroke {
-        -webkit-text-stroke: 1px var(--ink);
+        -webkit-text-stroke: 1px var(--text-soft);
         color: transparent;
       }
 
       .deck {
         font-family: var(--font-body);
-        font-size: clamp(18px, 1.4vw, 22px);
-        line-height: 1.5;
-        color: var(--ink-soft);
+        font-size: clamp(17px, 1.3vw, 20px);
+        line-height: 1.55;
+        color: var(--text-soft);
         max-width: 56ch;
-        font-style: italic;
-        font-weight: 360;
-      }
-
-      p { max-width: 64ch; }
-
-      .lede::first-letter {
-        font-family: var(--font-display);
-        font-size: 5.4em;
-        line-height: 0.85;
-        float: left;
-        padding: 6px 14px 0 0;
-        color: var(--accent);
         font-weight: 400;
+        font-style: normal;
+      }
+      .deck em { font-style: normal; color: var(--accent); font-weight: 500; }
+
+      p { max-width: 64ch; color: var(--text-soft); margin: 0 0 16px; }
+      p:last-child { margin-bottom: 0; }
+      p strong { color: var(--text); font-weight: 600; }
+      p em { font-style: normal; color: var(--text); font-weight: 500; }
+
+      .lede {
+        font-size: 21px;
+        line-height: 1.55;
+        color: var(--text-soft);
+      }
+      .lede::first-letter { /* drop the print drop-cap */
+        font-size: inherit;
+        float: none;
+        padding: 0;
+        color: inherit;
       }
 
       hr.rule {
         border: 0;
-        border-top: 1px solid var(--rule);
-        margin: 36px 0;
+        border-top: 1px solid var(--border);
+        margin: 40px 0;
       }
       hr.thick {
         border: 0;
-        border-top: 3px solid var(--ink);
-        margin: 36px 0;
+        border-top: 1px solid var(--border-strong);
+        margin: 40px 0;
       }
 
       .label {
         font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.2em;
+        font-size: 11px;
+        letter-spacing: 0.16em;
         text-transform: uppercase;
-        color: var(--ink-faint);
+        color: var(--text-faint);
       }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.2s;
+      }
+      a:hover { border-bottom-color: var(--accent); }
 
       code, .code {
         font-family: var(--font-mono);
-        font-size: 0.86em;
-        background: var(--paper-deep);
+        font-size: 0.88em;
+        background: var(--bg-soft);
         padding: 1px 6px;
-        border-radius: 2px;
-        color: var(--ink);
+        border-radius: 4px;
+        color: var(--text);
+        border: 1px solid var(--border);
+        font-weight: 400;
       }
       pre {
         font-family: var(--font-mono);
-        font-size: 13px;
-        line-height: 1.6;
-        background: var(--ink);
-        color: #f3ead4;
+        font-size: 15px;
+        line-height: 1.65;
+        background: var(--bg-code);
+        color: var(--text);
         padding: 22px 24px;
-        border-radius: 2px;
+        border-radius: 6px;
         overflow-x: auto;
         margin: 24px 0;
-        box-shadow: 6px 6px 0 var(--accent);
+        border: 1px solid var(--border);
+        position: relative;
       }
-      pre .cmt { color: #b3a584; font-style: italic; }
-      pre .kw { color: #f0b270; }
-      pre .str { color: #e1d3a8; }
+      pre .cmt { color: var(--text-faint); font-style: normal; }
+      pre .kw { color: var(--accent); }
+      pre .str { color: var(--ok); }
 
       /* ============================ COVER ============================ */
       #cover {
         min-height: 100vh;
-        padding: 130px 8vw 80px;
+        padding: 130px 8vw 90px;
         display: grid;
         grid-template-rows: auto 1fr auto;
-        gap: 40px;
+        gap: 48px;
         position: relative;
       }
 
@@ -261,11 +320,24 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 36px;
-        padding-bottom: 18px;
-        border-bottom: 1px solid var(--rule);
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border);
       }
-      .cover-meta .cell .k { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 6px; }
-      .cover-meta .cell .v { font-family: var(--font-display); font-size: 22px; }
+      .cover-meta .cell .k {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--text-faint);
+        margin-bottom: 8px;
+      }
+      .cover-meta .cell .v {
+        font-family: var(--font-display);
+        font-size: 20px;
+        font-weight: 500;
+        color: var(--text);
+        letter-spacing: -0.01em;
+      }
 
       .cover-main {
         align-self: center;
@@ -273,16 +345,31 @@
       }
       .cover-title {
         font-family: var(--font-display);
-        font-size: clamp(72px, 13vw, 220px);
-        line-height: 0.86;
-        letter-spacing: -0.02em;
+        font-size: clamp(64px, 12vw, 200px);
+        line-height: 0.9;
+        letter-spacing: -0.045em;
         margin: 0;
-        font-weight: 400;
+        font-weight: 300;
+        color: var(--text);
       }
       .cover-title .row { display: block; }
-      .cover-title .italic { font-style: italic; color: var(--accent); }
-      .cover-title .outline { -webkit-text-stroke: 1.5px var(--ink); color: transparent; }
-      .cover-title .small { font-size: 0.4em; vertical-align: super; font-family: var(--font-mono); letter-spacing: 0.04em; }
+      .cover-title .italic {
+        font-style: normal;
+        color: var(--accent);
+        font-weight: 500;
+      }
+      .cover-title .outline {
+        -webkit-text-stroke: 1px var(--text-soft);
+        color: transparent;
+      }
+      .cover-title .small {
+        font-size: 0.3em;
+        vertical-align: super;
+        font-family: var(--font-mono);
+        letter-spacing: 0;
+        color: var(--text-faint);
+        font-weight: 400;
+      }
 
       .cover-side {
         position: absolute;
@@ -294,454 +381,600 @@
         flex-direction: column;
         justify-content: space-between;
         font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.16em;
+        font-size: 11px;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
-        color: var(--ink-faint);
-        border-left: 1px solid var(--rule);
-        padding-left: 18px;
+        color: var(--text-faint);
+        border-left: 1px solid var(--border);
+        padding-left: 20px;
       }
       .cover-side .num {
         font-family: var(--font-display);
-        font-size: 70px;
+        font-size: 72px;
         line-height: 1;
         color: var(--accent);
-        letter-spacing: 0;
+        letter-spacing: -0.04em;
         text-transform: none;
+        font-weight: 300;
       }
 
       .cover-foot {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 36px;
-        border-top: 1px solid var(--rule);
-        padding-top: 22px;
+        border-top: 1px solid var(--border);
+        padding-top: 24px;
       }
       .cover-foot .deck-line {
         font-family: var(--font-body);
         font-size: 19px;
-        line-height: 1.5;
-        font-style: italic;
-        color: var(--ink-soft);
+        line-height: 1.55;
+        font-style: normal;
+        font-weight: 400;
+        color: var(--text-soft);
         max-width: 50ch;
+      }
+      .cover-foot .deck-line em {
+        font-style: normal;
+        font-weight: 500;
       }
       .cover-foot .meta-block {
         font-family: var(--font-mono);
-        font-size: 11px;
-        letter-spacing: 0.18em;
+        font-size: 12px;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
-        color: var(--ink);
+        color: var(--text-soft);
         align-self: end;
         text-align: right;
+        line-height: 1.8;
       }
       .cover-foot .meta-block .accent { color: var(--accent); }
 
+      /* Old round "stamp" → flat tech badge */
       .stamp {
         position: absolute;
         top: 110px;
         right: 6vw;
-        width: 140px;
-        height: 140px;
-        border: 2px solid var(--accent);
+        width: auto;
+        height: auto;
+        border: 1px solid var(--accent);
         color: var(--accent);
         font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.18em;
+        font-size: 11px;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 16px;
-        line-height: 1.4;
-        transform: rotate(-8deg);
-        border-radius: 999px;
-        opacity: 0.9;
+        text-align: left;
+        padding: 8px 14px;
+        line-height: 1.5;
+        transform: none;
+        border-radius: 4px;
+        opacity: 1;
+        background: var(--accent-glow);
       }
+      .stamp br { display: none; }
 
-      /* ============================ TWO-COL ============================ */
-      .two-col { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: start; }
-      .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; }
-      .asym { display: grid; grid-template-columns: 0.6fr 1.4fr; gap: 60px; }
-      .asym-r { display: grid; grid-template-columns: 1.4fr 0.6fr; gap: 60px; }
+      /* ============================ GRIDS ============================ */
+      .two-col { display: grid; grid-template-columns: 1.2fr 1fr; gap: 56px; align-items: start; }
+      .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+      .asym { display: grid; grid-template-columns: 0.6fr 1.4fr; gap: 56px; }
+      .asym-r { display: grid; grid-template-columns: 1.4fr 0.6fr; gap: 56px; }
 
       /* ============================ CARD ============================ */
       .card {
-        border: 1px solid var(--rule);
-        padding: 28px;
-        background: color-mix(in srgb, var(--paper) 60%, white);
+        border: 1px solid var(--border);
+        padding: 24px 26px;
+        background: var(--bg-elevated);
         position: relative;
+        border-radius: 8px;
+        transition: border-color 0.2s, transform 0.2s;
       }
+      .card:hover { border-color: var(--border-strong); }
       .card .corner {
         position: absolute;
-        top: -1px;
-        left: -1px;
-        background: var(--ink);
-        color: var(--paper);
+        top: 18px;
+        right: 20px;
+        background: transparent;
+        color: var(--text-faint);
         font-family: var(--font-mono);
         font-size: 10px;
-        letter-spacing: 0.18em;
-        padding: 4px 10px;
+        letter-spacing: 0.16em;
+        padding: 0;
         text-transform: uppercase;
+        font-weight: 500;
       }
-      .card.accent { border-color: var(--accent); }
-      .card.accent .corner { background: var(--accent); }
-      .card h3 { font-size: 28px; margin: 18px 0 12px; line-height: 1.1; }
-      .card h3 em { color: var(--accent); font-style: italic; }
-      .card .meta { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 4px; }
+      .card.accent {
+        border-color: var(--accent);
+        background:
+          linear-gradient(180deg, var(--accent-glow), transparent 50%),
+          var(--bg-elevated);
+      }
+      .card.accent .corner { color: var(--accent); }
+      .card h3 {
+        font-size: 24px;
+        margin: 14px 0 12px;
+        line-height: 1.2;
+        font-weight: 500;
+        letter-spacing: -0.015em;
+      }
+      .card h3 em { color: var(--accent); font-style: normal; font-weight: 500; }
+      .card .meta {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--text-faint);
+        margin-bottom: 6px;
+      }
+      .card p { color: var(--text-soft); }
 
       /* ============================ MAP (section 03) ============================ */
       .map-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
-        margin-top: 40px;
+        gap: 16px;
+        margin-top: 44px;
       }
       .map-cell {
-        border: 1px solid var(--ink);
+        border: 1px solid var(--border);
         padding: 24px 22px;
         min-height: 320px;
         position: relative;
-        background: var(--paper);
+        background: var(--bg-elevated);
         display: flex;
         flex-direction: column;
+        border-radius: 8px;
       }
       .map-cell::before {
         content: attr(data-axis);
         position: absolute;
-        top: -10px;
-        left: 12px;
-        background: var(--paper);
+        top: -8px;
+        left: 16px;
+        background: var(--bg);
         padding: 0 8px;
         font-family: var(--font-mono);
         font-size: 10px;
-        letter-spacing: 0.2em;
+        letter-spacing: 0.18em;
         text-transform: uppercase;
         color: var(--accent);
+        font-weight: 500;
       }
       .map-cell .layer-num {
         font-family: var(--font-display);
         font-size: 48px;
         line-height: 1;
         color: var(--accent);
+        font-weight: 300;
+        letter-spacing: -0.04em;
       }
-      .map-cell h3 { font-size: 26px; margin: 8px 0 14px; line-height: 1.1; }
-      .map-cell h3 .en { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; color: var(--ink-faint); text-transform: uppercase; margin-top: 4px; }
-      .map-cell ul { padding: 0; margin: 0; list-style: none; font-size: 14px; line-height: 1.5; color: var(--ink-soft); }
-      .map-cell ul li { padding: 4px 0; border-bottom: 1px dotted var(--rule-soft); }
-      .map-cell ul li code { font-size: 12px; background: transparent; padding: 0; color: var(--ink); }
+      .map-cell h3 {
+        font-size: 22px;
+        margin: 10px 0 14px;
+        line-height: 1.2;
+        font-weight: 500;
+      }
+      .map-cell h3 .en {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: 0.18em;
+        color: var(--text-faint);
+        text-transform: uppercase;
+        margin-top: 4px;
+        font-weight: 400;
+      }
+      .map-cell ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        font-size: 15px;
+        line-height: 1.5;
+        color: var(--text-soft);
+      }
+      .map-cell ul li {
+        padding: 6px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .map-cell ul li:last-child { border-bottom: none; }
+      .map-cell ul li code {
+        font-size: 14px;
+        background: transparent;
+        padding: 0;
+        border: none;
+        color: var(--text);
+      }
 
-      /* ============================ THREE LAYERS TABLE ============================ */
+      /* ============================ COMPARE TABLE ============================ */
       table.compare {
         width: 100%;
         border-collapse: collapse;
         margin: 30px 0;
-        font-size: 15px;
+        font-size: 16px;
       }
       table.compare th {
         text-align: left;
         font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.18em;
+        font-size: 11px;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
-        padding: 10px 14px;
-        color: var(--ink-faint);
-        border-bottom: 2px solid var(--ink);
+        padding: 12px 14px;
+        color: var(--text-faint);
+        border-bottom: 1px solid var(--border-strong);
         vertical-align: bottom;
+        font-weight: 500;
       }
-      table.compare th.h-skill { color: var(--accent); }
-      table.compare th.h-sub { color: var(--blue); }
-      table.compare th.h-hook { color: var(--accent-deep); }
+      table.compare th.h-skill,
+      table.compare th.h-sub,
+      table.compare th.h-hook { color: var(--accent); }
       table.compare td {
-        padding: 14px 14px;
-        border-bottom: 1px solid var(--rule-soft);
+        padding: 14px;
+        border-bottom: 1px solid var(--border);
         vertical-align: top;
-        line-height: 1.5;
+        line-height: 1.55;
+        color: var(--text-soft);
       }
       table.compare td:first-child {
         font-family: var(--font-mono);
         font-size: 11px;
-        letter-spacing: 0.16em;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
-        color: var(--ink-faint);
+        color: var(--text-faint);
         width: 18%;
+        font-weight: 500;
       }
-      table.compare td code { font-size: 12px; }
+      table.compare td code { font-size: 14px; }
 
-      /* ============================ WORKFLOW ============================ */
+      /* ============================ WORKFLOW FLOW ============================ */
       .flow {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 0;
-        margin-top: 50px;
-        border: 1px solid var(--ink);
+        margin-top: 44px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+        background: var(--bg-elevated);
       }
       .flow-step {
-        padding: 28px 24px;
-        border-right: 1px solid var(--rule);
+        padding: 26px 22px;
+        border-right: 1px solid var(--border);
         position: relative;
-        background: var(--paper);
       }
       .flow-step:last-child { border-right: none; }
       .flow-step .step-n {
-        font-family: var(--font-display);
-        font-size: 14px;
-        font-style: italic;
-        color: var(--accent);
-      }
-      .flow-step h3 {
-        font-family: var(--font-display);
-        font-size: 36px;
-        margin: 4px 0 12px;
-        line-height: 1;
-      }
-      .flow-step .mode {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: var(--ink-faint);
-        margin-bottom: 14px;
-      }
-      .flow-step p { font-size: 14px; line-height: 1.5; margin: 0 0 12px; color: var(--ink-soft); }
-      .flow-step .cmd {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        background: var(--ink);
-        color: var(--paper);
-        padding: 8px 10px;
-        display: block;
-        line-height: 1.4;
-        margin-top: 14px;
-      }
-
-      /* ============================ PULL QUOTE ============================ */
-      .pull {
-        margin: 60px 0;
-        padding: 36px 0;
-        border-top: 3px solid var(--ink);
-        border-bottom: 1px solid var(--rule);
-        position: relative;
-      }
-      .pull q {
-        font-family: var(--font-display);
-        font-size: clamp(32px, 4.2vw, 60px);
-        line-height: 1.06;
-        font-style: italic;
-        display: block;
-        color: var(--ink);
-        max-width: 22ch;
-        quotes: '“' '”';
-      }
-      .pull q::before { content: open-quote; color: var(--accent); }
-      .pull q::after { content: close-quote; color: var(--accent); }
-      .pull cite {
         font-family: var(--font-mono);
         font-size: 11px;
         letter-spacing: 0.18em;
         text-transform: uppercase;
-        color: var(--ink-faint);
+        color: var(--accent);
+        font-style: normal;
+        font-weight: 500;
+      }
+      .flow-step h3 {
+        font-family: var(--font-display);
+        font-size: 28px;
+        margin: 8px 0 12px;
+        line-height: 1;
+        font-weight: 400;
+        letter-spacing: -0.02em;
+      }
+      .flow-step .mode {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-faint);
+        margin-bottom: 14px;
+      }
+      .flow-step p {
+        font-size: 15px;
+        line-height: 1.55;
+        margin: 0 0 12px;
+        color: var(--text-soft);
+      }
+      .flow-step .cmd {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        background: var(--bg-code);
+        color: var(--text);
+        padding: 10px 12px;
+        display: block;
+        line-height: 1.5;
+        margin-top: 14px;
+        border-radius: 4px;
+        border: 1px solid var(--border);
+      }
+
+      /* ============================ PULL QUOTE ============================ */
+      .pull {
+        margin: 52px 0;
+        padding: 24px 0 24px 28px;
+        border-left: 2px solid var(--accent);
+        border-top: none;
+        border-bottom: none;
+        position: relative;
+      }
+      .pull q {
+        font-family: var(--font-display);
+        font-size: clamp(26px, 3.6vw, 46px);
+        line-height: 1.18;
+        font-style: normal;
+        font-weight: 300;
+        display: block;
+        color: var(--text);
+        max-width: 24ch;
+        letter-spacing: -0.025em;
+        quotes: none;
+      }
+      .pull q::before, .pull q::after { content: none; }
+      .pull q em { font-style: normal; color: var(--accent); font-weight: 500; }
+      .pull cite {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--text-faint);
         font-style: normal;
         display: block;
-        margin-top: 20px;
+        margin-top: 18px;
       }
-      .pull cite::before { content: '— '; }
+      .pull cite::before { content: '— '; color: var(--accent); }
 
-      /* ============================ INCLUDE / EXCLUDE ============================ */
+      /* ============================ LEDGER (Include / Exclude) ============================ */
       .ledger {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 0;
+        gap: 16px;
         margin: 30px 0;
-        border: 1px solid var(--ink);
       }
-      .ledger > div { padding: 24px 28px; }
-      .ledger > div:first-child { border-right: 1px solid var(--ink); background: color-mix(in srgb, var(--accent) 6%, var(--paper)); }
-      .ledger > div:last-child { background: color-mix(in srgb, var(--ink) 4%, var(--paper)); }
+      .ledger > div {
+        padding: 24px 26px;
+        border: 1px solid var(--border);
+        background: var(--bg-elevated);
+        border-radius: 8px;
+      }
+      .ledger > div:first-child { border-left: 2px solid var(--accent); }
+      .ledger > div:last-child { border-left: 2px solid var(--warn); }
       .ledger h4 {
         font-family: var(--font-mono);
-        font-size: 11px;
-        letter-spacing: 0.2em;
+        font-size: 12px;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
         margin: 0 0 18px;
+        color: var(--text);
+        font-weight: 500;
       }
       .ledger ul { padding: 0; margin: 0; list-style: none; }
-      .ledger li { padding: 8px 0; border-bottom: 1px dotted var(--rule-soft); font-size: 15px; line-height: 1.4; }
+      .ledger li {
+        padding: 8px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 15px;
+        line-height: 1.55;
+        color: var(--text-soft);
+      }
+      .ledger li:last-child { border-bottom: none; }
       .ledger li::before {
-        content: attr(data-mark);
         font-family: var(--font-mono);
         font-size: 12px;
         margin-right: 10px;
+        font-weight: 500;
       }
-      .ledger > div:first-child li::before { color: var(--accent); content: '✓'; }
-      .ledger > div:last-child li::before { color: var(--ink-faint); content: '✕'; }
+      .ledger > div:first-child li::before { color: var(--accent); content: '+'; }
+      .ledger > div:last-child li::before { color: var(--warn); content: '−'; }
 
-      /* ============================ FAILURE PATTERNS ============================ */
-      .fail-list { display: grid; gap: 0; margin-top: 30px; }
+      /* ============================ FAILURE LIST ============================ */
+      .fail-list { display: grid; gap: 0; margin-top: 32px; }
       .fail-list .row {
         display: grid;
         grid-template-columns: 60px 1.6fr 1fr;
         gap: 30px;
-        padding: 24px 0;
-        border-top: 1px solid var(--rule);
+        padding: 26px 0;
+        border-top: 1px solid var(--border);
         align-items: start;
       }
-      .fail-list .row:last-child { border-bottom: 1px solid var(--rule); }
+      .fail-list .row:last-child { border-bottom: 1px solid var(--border); }
       .fail-list .row .n {
-        font-family: var(--font-display);
-        font-size: 56px;
-        line-height: 0.9;
+        font-family: var(--font-mono);
+        font-size: 24px;
+        line-height: 1;
         color: var(--accent);
-        font-style: italic;
+        font-style: normal;
+        font-weight: 500;
+        letter-spacing: 0.04em;
       }
-      .fail-list .row .title { font-family: var(--font-display); font-size: 28px; margin: 0 0 6px; line-height: 1.1; }
-      .fail-list .row .desc { font-size: 15px; color: var(--ink-soft); line-height: 1.5; margin: 0; }
+      .fail-list .row .title {
+        font-family: var(--font-display);
+        font-size: 24px;
+        margin: 0 0 8px;
+        line-height: 1.2;
+        font-weight: 500;
+        letter-spacing: -0.015em;
+        color: var(--text);
+      }
+      .fail-list .row .desc {
+        font-size: 16px;
+        color: var(--text-soft);
+        line-height: 1.55;
+        margin: 0;
+      }
       .fail-list .row .fix {
         font-family: var(--font-body);
-        font-size: 14px;
-        line-height: 1.55;
+        font-size: 15px;
+        line-height: 1.6;
         padding-left: 18px;
         border-left: 2px solid var(--accent);
+        color: var(--text-soft);
       }
       .fail-list .row .fix .tag {
         display: block;
         font-family: var(--font-mono);
-        font-size: 9px;
-        letter-spacing: 0.22em;
+        font-size: 10px;
+        letter-spacing: 0.18em;
         text-transform: uppercase;
         color: var(--accent);
         margin-bottom: 6px;
+        font-weight: 500;
       }
+      .fail-list .row .fix em { color: var(--text); font-style: normal; font-weight: 500; }
 
-      /* ============================ BEFORE/AFTER ============================ */
+      /* ============================ BEFORE / AFTER ============================ */
       .ba {
         display: grid;
         grid-template-columns: 1fr 24px 1fr;
         align-items: stretch;
         margin: 18px 0;
-        border-top: 1px solid var(--rule-soft);
+        border-top: 1px solid var(--border);
         padding-top: 18px;
       }
       .ba .before, .ba .after {
         padding: 4px 0;
         font-family: var(--font-mono);
-        font-size: 13px;
-        line-height: 1.5;
+        font-size: 14px;
+        line-height: 1.6;
       }
-      .ba .before { color: var(--ink-faint); font-style: italic; }
-      .ba .after { color: var(--ink); }
+      .ba .before { color: var(--text-faint); font-style: normal; }
+      .ba .after { color: var(--text); }
       .ba .arrow {
         align-self: center;
         text-align: center;
         font-family: var(--font-mono);
         color: var(--accent);
-        font-size: 18px;
+        font-size: 16px;
       }
       .ba .lab {
         display: block;
         font-family: var(--font-mono);
-        font-size: 9px;
-        letter-spacing: 0.22em;
+        font-size: 10px;
+        letter-spacing: 0.18em;
         text-transform: uppercase;
-        color: var(--ink-faint);
+        color: var(--text-faint);
         margin-bottom: 4px;
         font-style: normal;
+        font-weight: 500;
       }
       .ba .after .lab { color: var(--accent); }
 
-      /* ============================ REPO CASE ============================ */
+      /* ============================ REPO TREE ============================ */
       .repo-tree {
         font-family: var(--font-mono);
-        font-size: 13px;
-        line-height: 1.7;
-        background: var(--paper-deep);
+        font-size: 14px;
+        line-height: 1.85;
+        background: var(--bg-code);
         padding: 22px 26px;
-        border: 1px solid var(--rule);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--text-soft);
       }
       .repo-tree .ln { display: block; }
-      .repo-tree .h { color: var(--ink); font-weight: 500; }
+      .repo-tree .h { color: var(--text); font-weight: 500; }
       .repo-tree .a { color: var(--accent); }
-      .repo-tree .b { color: var(--blue); }
-      .repo-tree .c { color: var(--ink-faint); font-style: italic; }
+      .repo-tree .b { color: var(--ok); }
+      .repo-tree .c { color: var(--text-faint); font-style: normal; }
 
       /* ============================ WORKSHOP AGENDA ============================ */
-      .agenda { margin-top: 30px; }
+      .agenda { margin-top: 32px; }
       .agenda .slot {
         display: grid;
-        grid-template-columns: 140px 1fr;
-        gap: 30px;
-        padding: 20px 0;
-        border-top: 1px solid var(--rule);
+        grid-template-columns: 150px 1fr;
+        gap: 32px;
+        padding: 22px 0;
+        border-top: 1px solid var(--border);
       }
-      .agenda .slot:last-child { border-bottom: 1px solid var(--rule); }
+      .agenda .slot:last-child { border-bottom: 1px solid var(--border); }
       .agenda .slot .time {
         font-family: var(--font-mono);
         font-size: 12px;
-        letter-spacing: 0.16em;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
         color: var(--accent);
-        padding-top: 6px;
+        padding-top: 8px;
+        font-weight: 500;
       }
-      .agenda .slot .time .dur { display: block; color: var(--ink-faint); font-size: 10px; margin-top: 4px; }
-      .agenda .slot h3 { font-family: var(--font-display); font-size: 32px; margin: 0 0 8px; line-height: 1.1; }
-      .agenda .slot p { margin: 0 0 8px; color: var(--ink-soft); font-size: 15px; }
-      .agenda .slot ul { margin: 8px 0 0; padding-left: 20px; font-size: 14px; color: var(--ink-soft); }
+      .agenda .slot .time .dur {
+        display: block;
+        color: var(--text-faint);
+        font-size: 11px;
+        margin-top: 4px;
+        font-weight: 400;
+      }
+      .agenda .slot h3 {
+        font-family: var(--font-display);
+        font-size: 28px;
+        margin: 0 0 10px;
+        line-height: 1.2;
+        font-weight: 500;
+        letter-spacing: -0.015em;
+      }
+      .agenda .slot p { margin: 0 0 10px; color: var(--text-soft); font-size: 16px; }
+      .agenda .slot ul { margin: 8px 0 0; padding-left: 20px; font-size: 15px; color: var(--text-soft); line-height: 1.65; }
 
       /* ============================ CODA ============================ */
       .coda {
         text-align: center;
-        padding: 80px 0;
+        padding: 80px 0 40px;
       }
       .coda .big {
         font-family: var(--font-display);
-        font-size: clamp(56px, 10vw, 140px);
-        line-height: 0.95;
-        font-style: italic;
+        font-size: clamp(48px, 8vw, 120px);
+        line-height: 1.04;
+        font-style: normal;
+        font-weight: 300;
+        letter-spacing: -0.035em;
         margin: 0;
+        color: var(--text);
       }
-      .coda .big em { color: var(--accent); font-style: italic; }
+      .coda .big em {
+        color: var(--accent);
+        font-style: normal;
+        font-weight: 500;
+      }
       .coda .sig {
-        margin-top: 60px;
+        margin-top: 64px;
         font-family: var(--font-mono);
-        font-size: 11px;
-        letter-spacing: 0.22em;
+        font-size: 12px;
+        letter-spacing: 0.16em;
         text-transform: uppercase;
-        color: var(--ink-faint);
+        color: var(--text-faint);
       }
 
       /* ============================ MARGIN NOTE ============================ */
       .margin-note {
         font-family: var(--font-body);
-        font-style: italic;
-        font-size: 14px;
-        line-height: 1.4;
-        color: var(--ink-soft);
+        font-style: normal;
+        font-size: 15px;
+        line-height: 1.65;
+        color: var(--text-soft);
         padding-left: 14px;
         border-left: 2px solid var(--accent);
       }
+      .margin-note strong { color: var(--text); font-weight: 600; }
+      .margin-note em { font-style: normal; color: var(--text); font-weight: 500; }
       .margin-note .src {
         display: block;
         font-family: var(--font-mono);
         font-style: normal;
-        font-size: 9px;
-        letter-spacing: 0.2em;
+        font-size: 10px;
+        letter-spacing: 0.16em;
         text-transform: uppercase;
         color: var(--accent);
-        margin-top: 6px;
+        margin-top: 10px;
+        font-weight: 500;
       }
+      .margin-note .src code { font-size: 10px; }
 
       .kbd {
         font-family: var(--font-mono);
-        font-size: 11px;
+        font-size: 12px;
         padding: 2px 6px;
-        border: 1px solid var(--ink);
+        border: 1px solid var(--border-strong);
         border-bottom-width: 2px;
-        background: var(--paper);
-        color: var(--ink);
-        border-radius: 3px;
+        background: var(--bg-soft);
+        color: var(--text);
+        border-radius: 4px;
       }
 
-      /* fade-in for cover */
+      /* ============================ COVER FADE-IN ============================ */
       @keyframes riseIn {
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
@@ -753,15 +986,17 @@
       .rise > *:nth-child(4) { animation-delay: 0.6s; }
       .rise > *:nth-child(5) { animation-delay: 0.8s; }
 
+      /* ============================ RESPONSIVE ============================ */
       @media (max-width: 900px) {
         .index { display: none; }
         .two-col, .three-col, .asym, .asym-r, .map-grid, .flow, .ledger { grid-template-columns: 1fr !important; }
         .cover-side { display: none; }
         .stamp { display: none; }
-        section.spread { padding: 110px 5vw 60px; }
+        section.spread { padding: 110px 5vw 70px; }
         .cover-meta { grid-template-columns: 1fr 1fr; }
         .fail-list .row { grid-template-columns: 40px 1fr; }
         .fail-list .row .fix { grid-column: 2; }
+        .agenda .slot { grid-template-columns: 1fr; gap: 8px; }
       }
     </style>
   </head>
@@ -769,7 +1004,7 @@
     <!-- ============================= MASTHEAD ============================= -->
     <header class="masthead">
       <div class="left">№ 01 · ISSUE I<span class="dot"></span>2026 · 05</div>
-      <div class="center">深入 Claude Code <span style="font-family: var(--font-mono); font-style: normal; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint);">　·　A Field Manual</span></div>
+      <div class="center">深入 Claude Code <span style="font-family: var(--font-mono); font-style: normal; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); margin-left: 8px;">A Field Manual</span></div>
       <div class="right">智慧医院团队 · INTERNAL</div>
     </header>
 
@@ -814,16 +1049,16 @@
           <div class="num">14</div>
           <div>14 Chapters · 1 Workshop · ∞ Sessions</div>
         </aside>
-        <div class="stamp">Based on<br />Anthropic<br />Official Docs</div>
+        <div class="stamp">Based on Anthropic Official Docs</div>
       </div>
 
       <div class="cover-foot">
         <div class="deck-line">
           一份给团队的实战手册 — 不是教你"怎么用 Claude Code 补全代码"，
-          而是教你把它从工具升级为<em style="color: var(--accent); font-style: italic;">协作者</em>。
+          而是教你把它从工具升级为<em style="color: var(--accent);">协作者</em>。
         </div>
         <div class="meta-block">
-          BY · 张毅<br />
+          BY · Yaniel Yu<br />
           FOR · 智慧医院后端 / 前端<br />
           <span class="accent">REPO · JeecgBoot / hospital</span>
         </div>
@@ -840,30 +1075,80 @@
         </div>
         <div>
           <p class="lede">
-            Claude Code 是一个 agentic coding environment，不是一个聊天补全器。它能读文件、跑命令、改代码、连工具，
-            <em>autonomously work through problems</em>。但绝大多数团队使用它的方式仍然停留在"问一句、改一行"。
-          </p>
-          <p>
-            问题不在工具，在<strong>使用层级</strong>。把本该是 hook 的东西写成提示词、把本该是 skill 的工作流复制粘贴到每个对话、
-            把本该交给 subagent 的探查塞进主上下文 —— 这是大部分团队"用不深"的真正原因。
-          </p>
-          <hr class="rule" />
-          <p>
-            这份手册不会讲所有功能。我们只覆盖<strong>真正决定使用深度</strong>的 13 件事 —— 全部基于 Anthropic 官方
-            <a href="https://code.claude.com/docs/en/best-practices" style="color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent);">Best Practices</a> 与
-            <a href="https://code.claude.com/docs/en/overview" style="color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent);">Overview</a>。
+            Claude Code 是一个<strong>代理式编程环境</strong>（agentic coding environment）——
+            它能读文件、跑命令、改代码、连接外部工具、<em>自主推进问题</em>，不是一个聊天补全器。
+            但绝大多数团队使用它的方式仍然停留在"问一句、改一行"。
           </p>
         </div>
       </div>
 
-      <div class="pull">
+      <!-- 为什么是 30% -->
+      <h3 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; letter-spacing: -0.025em; margin: 48px 0 22px; color: var(--text);">
+        为什么是 30% · <em style="color: var(--accent); font-style: normal; font-weight: 500;">四层只用了一层</em>
+      </h3>
+
+      <p style="max-width: 70ch;">
+        Claude Code 的能力分四层（第 02 章会展开）：
+        <strong>① 直接对话工具</strong>（Read / Edit / Bash …） ·
+        <strong>② 项目记忆</strong>（<code>CLAUDE.md</code>、auto-memory） ·
+        <strong>③ 团队扩展</strong>（技能 / 子代理 / 钩子） ·
+        <strong>④ 多会话编排</strong>（并行 / 无人值守）。
+      </p>
+      <p style="max-width: 70ch;">
+        我们观察医院团队前三周的日常使用：<strong>超过 90% 的对话停留在 Layer I</strong>——直接问、直接答、直接补。
+        没人调用过自己仓库的技能；没人派过子代理做研究；没人写过钩子拦截危险操作。
+        <em>四层只用了一层，所以是 30%（其实更少）。</em>
+      </p>
+
+      <!-- 真实场景对比 -->
+      <h3 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; letter-spacing: -0.025em; margin: 48px 0 22px; color: var(--text);">
+        举个例子 · <em style="color: var(--accent); font-style: normal; font-weight: 500;">同一个需求，两种成本</em>
+      </h3>
+
+      <p style="max-width: 70ch; margin-bottom: 24px;">
+        需求：在 <code>jeecg-online</code> 模块里加一个表单——把住院患者基础信息收上来。
+      </p>
+
+      <div class="ledger" style="margin-bottom: 36px;">
+        <div style="border-left-color: var(--warn);">
+          <h4>30% 玩法 · 只用 Layer I</h4>
+          <ul style="font-size: 16px;">
+            <li>"帮我加一个住院患者表单"</li>
+            <li>Claude 不知道仓库约定，按通用 Spring Boot 写了一版</li>
+            <li>跑起来报错——少了 <code>@Dict</code>、字段名不符 <code>bizPath</code> 规范</li>
+            <li>你贴报错回去再问、再返工，来回 3 轮</li>
+            <li>最后你自己翻 <code>jeecg-online</code> 文档对接</li>
+            <li><strong style="color: var(--warn);">总耗约 1.5 小时 · 上下文吃掉 60K token</strong></li>
+          </ul>
+        </div>
+        <div style="border-left-color: var(--accent);">
+          <h4>80% 玩法 · 用上 Layer II/III</h4>
+          <ul style="font-size: 16px;">
+            <li>"用 <code>/jeecg-online-forms</code> 帮我加住院患者表单，字段：姓名、住院号、入院时间、科室"</li>
+            <li>Claude 加载本仓库的技能（skill），按既有约定生成</li>
+            <li>第一次就符合 <code>@Dict</code> / <code>bizPath</code> / 字段命名规范</li>
+            <li>跑 <code>/verify</code> 编译通过</li>
+            <li><strong style="color: var(--accent);">总耗约 15 分钟 · 上下文只用 12K token</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <p style="max-width: 70ch;">
+        <strong>差 6 倍。</strong>不是 Claude 变笨了，是你没把<em>该用的层</em>用上。
+        这本手册剩下的章节就是把这另外 50% 补回来。
+      </p>
+
+      <!-- 唯一要刻在脑子里的话 -->
+      <div class="pull" style="margin-top: 48px;">
         <q>Claude's context window fills up fast, and performance degrades as it fills.</q>
         <cite>Anthropic · Claude Code Best Practices</cite>
       </div>
 
       <p style="max-width: 64ch;">
-        请把这句话刻在脑子里。本书后面所有的建议 —— 从 <code>/clear</code> 到 subagent、从 plan mode 到 worktree ——
-        都是为了一件事：<strong>把上下文当作最稀缺的资源来管理</strong>。
+        如果你只记本书的一句话，就记上面这句 ——
+        所有的建议（从 <code>/clear</code> 到子代理、从计划模式到 <code>git worktree</code>）
+        都是为了同一件事：<strong>把上下文当作最稀缺的资源来管理</strong>。
+        第 07 章会算清楚为什么稀缺。
       </p>
 
       <div class="folio"><span>№ 01</span><span>01 / 14 · PROLOGUE</span><span>UPSTAIRS</span></div>
@@ -873,12 +1158,12 @@
     <section id="map" class="spread">
       <div class="eyebrow">Chapter 02 · 功能地图</div>
 
-      <div class="pull" style="margin: 0 0 50px; border-top-width: 1px;">
-        <q>决定上限的不是模型 —— 是模型<em style="color: var(--accent-deep);">外面那圈</em>。</q>
+      <div class="pull" style="margin: 0 0 44px;">
+        <q>决定上限的不是模型 —— 是模型<em>外面那圈</em>。</q>
         <cite>Anthropic · Claude Code at Scale · 2026</cite>
       </div>
 
-      <p style="max-width: 64ch; margin: 0 0 36px; color: var(--ink-soft);">
+      <p style="max-width: 64ch; margin: 0 0 40px;">
         官方原话是 <em>"the harness matters as much as the model"</em> —— 围绕模型搭起来的那一圈（CLAUDE.md · Hooks · Skills · Plugins · LSP · MCP · Subagents），
         决定 Claude Code 的实际能力，比模型分数更甚。换 Opus 不会救你，搭好 harness 才会。
       </p>
@@ -900,7 +1185,7 @@
         <div class="map-cell" data-axis="Layer I">
           <div class="layer-num">01</div>
           <h3>工具<span class="en">Tools</span></h3>
-          <p style="font-size: 14px; color: var(--ink-soft); margin: 0 0 14px;">Claude 在<em>本轮</em>对话内能用的原子能力。</p>
+          <p style="font-size: 15px; margin: 0 0 14px;">Claude 在<em>本轮</em>对话内能用的原子能力。</p>
           <ul>
             <li><code>Read</code> · 读文件</li>
             <li><code>Edit</code> / <code>Write</code> · 改文件</li>
@@ -913,7 +1198,7 @@
         <div class="map-cell" data-axis="Layer II">
           <div class="layer-num">02</div>
           <h3>记忆<span class="en">Context & Memory</span></h3>
-          <p style="font-size: 14px; color: var(--ink-soft); margin: 0 0 14px;">每次启动都会被加载、跨会话存在的<em>知识</em>。</p>
+          <p style="font-size: 15px; margin: 0 0 14px;">每次启动都会被加载、跨会话存在的<em>知识</em>。</p>
           <ul>
             <li><code>CLAUDE.md</code> · 项目宪法</li>
             <li><code>~/.claude/CLAUDE.md</code> · 个人偏好</li>
@@ -926,7 +1211,7 @@
         <div class="map-cell" data-axis="Layer III">
           <div class="layer-num">03</div>
           <h3>扩展<span class="en">Extensions</span></h3>
-          <p style="font-size: 14px; color: var(--ink-soft); margin: 0 0 14px;">把<em>团队的工作方式</em>固化进仓库的三种机制。</p>
+          <p style="font-size: 15px; margin: 0 0 14px;">把<em>团队的工作方式</em>固化进仓库的三种机制。</p>
           <ul>
             <li><code>.claude/skills/</code> · 可复用工作流</li>
             <li><code>.claude/agents/</code> · 隔离子代理</li>
@@ -939,7 +1224,7 @@
         <div class="map-cell" data-axis="Layer IV">
           <div class="layer-num">04</div>
           <h3>编排<span class="en">Orchestration</span></h3>
-          <p style="font-size: 14px; color: var(--ink-soft); margin: 0 0 14px;">多个 Claude · 多种模式 · 多条会话的<em>调度</em>。</p>
+          <p style="font-size: 15px; margin: 0 0 14px;">多个 Claude · 多种模式 · 多条会话的<em>调度</em>。</p>
           <ul>
             <li>Plan Mode (<span class="kbd">Shift+Tab</span>)</li>
             <li>Auto Mode · 无人值守</li>
@@ -950,7 +1235,7 @@
         </div>
       </div>
 
-      <div class="margin-note" style="margin-top: 40px;">
+      <div class="margin-note" style="margin-top: 44px;">
         多数团队只用 Layer I。少数会写 CLAUDE.md (Layer II)。真正"深用"是指四层都在用。
         本书剩下的章节按这个顺序展开。
         <span class="src">Source · Anthropic Docs / Overview</span>
@@ -1023,17 +1308,17 @@
         <div class="card accent">
           <div class="corner">Start Here</div>
           <h3>从 <em>Skill</em> 开始</h3>
-          <p style="font-size: 14px; color: var(--ink-soft);">Skill 是最容易写、回报最高的扩展。任何"我又给 Claude 解释了一遍同样的事"，下次就应该是 skill。</p>
+          <p style="font-size: 16px;">Skill 是最容易写、回报最高的扩展。任何"我又给 Claude 解释了一遍同样的事"，下次就应该是 skill。</p>
         </div>
         <div class="card">
           <div class="corner">When to add</div>
           <h3><em>Hook</em> 是底线</h3>
-          <p style="font-size: 14px; color: var(--ink-soft);">凡是"必须每次都发生 · 零例外"的事，写成 hook。CLAUDE.md 里的规则是建议，hook 是强制。</p>
+          <p style="font-size: 16px;">凡是"必须每次都发生 · 零例外"的事，写成 hook。CLAUDE.md 里的规则是建议，hook 是强制。</p>
         </div>
         <div class="card">
           <div class="corner">When it matters</div>
           <h3><em>Subagent</em> 是手术刀</h3>
-          <p style="font-size: 14px; color: var(--ink-soft);">仅在"并行" "或"上下文隔离"真有价值时派出。不要为了显得高级就开 5 个 agent。</p>
+          <p style="font-size: 16px;">仅在"并行"或"上下文隔离"真有价值时派出。不要为了显得高级就开 5 个 agent。</p>
         </div>
       </div>
 
@@ -1044,48 +1329,115 @@
     <section id="workflow" class="spread">
       <div class="eyebrow">Chapter 04 · 核心工作流</div>
       <h2 class="headline"><em>Explore</em> →<br />Plan → Code → <span class="stroke">Commit.</span></h2>
-      <p class="deck">Anthropic 官方推荐的四阶段循环。<em>把研究、规划、执行分离</em>，避免一头扎进去解决错的问题。</p>
+      <p class="deck">Anthropic 官方推荐的四阶段循环。一句话总结：<em>把"想清楚"和"动手做"分开</em>，避免在错的问题上动手。</p>
 
       <div class="flow">
         <div class="flow-step">
           <div class="step-n">i.</div>
           <h3>Explore</h3>
-          <div class="mode">Plan Mode · Shift+Tab</div>
-          <p>让 Claude 先读，不写。回答你的问题。<em>不</em>让它修改文件。</p>
-          <span class="cmd">read /src/auth and understand<br />how we handle sessions.</span>
+          <div class="mode">计划模式 · Shift+Tab</div>
+          <p>让 Claude <strong>先读，不写</strong>。回答你的问题、整理它对代码的理解，不让它碰文件。</p>
+          <span class="cmd">读一下 /src/auth，告诉我现在<br />会话是怎么处理的。</span>
         </div>
         <div class="flow-step">
           <div class="step-n">ii.</div>
           <h3>Plan</h3>
-          <div class="mode">Plan Mode · Ctrl+G to edit</div>
-          <p>让 Claude 出方案。涉及哪些文件、流程是什么。<span class="kbd">Ctrl+G</span> 在编辑器里直接改。</p>
-          <span class="cmd">I want to add Google OAuth.<br />Create a plan.</span>
+          <div class="mode">计划模式 · Ctrl+G 改方案</div>
+          <p>让 Claude 出<strong>书面方案</strong>：要改哪些文件、流程是什么、有什么取舍。看完不顺眼就 <span class="kbd">Ctrl+G</span> 改。</p>
+          <span class="cmd">我想加一个 Google OAuth 登录。<br />写一份方案给我。</span>
         </div>
         <div class="flow-step">
           <div class="step-n">iii.</div>
           <h3>Code</h3>
-          <div class="mode">Default · Verify-as-you-go</div>
-          <p>切出 plan mode 让 Claude 实施。<em>立刻</em>跑测试 · 跑 lint · 跑编译。让它自己验证。</p>
-          <span class="cmd">implement the plan. write tests<br />and run them, fix failures.</span>
+          <div class="mode">默认模式 · 边写边验</div>
+          <p>退出计划模式让它实施。<em>立刻</em>跑测试、跑 lint、跑编译——让它自己看错自己改。</p>
+          <span class="cmd">按方案实施。写测试并运行，<br />有挂掉的就修。</span>
         </div>
         <div class="flow-step">
           <div class="step-n">iv.</div>
           <h3>Commit</h3>
-          <div class="mode">Default · Use git CLI</div>
-          <p>让 Claude 写 commit message 和 PR description。它比我们更耐心。</p>
-          <span class="cmd">commit with a descriptive<br />message and open a PR.</span>
+          <div class="mode">默认模式 · 用 git</div>
+          <p>让 Claude 写提交信息和 PR 描述。它比你更有耐心写完整的"为什么"。</p>
+          <span class="cmd">写一条详细的提交信息并<br />开一个 PR。</span>
         </div>
       </div>
 
-      <div class="two-col" style="margin-top: 50px;">
+      <!-- 为什么这个顺序 -->
+      <h3 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; letter-spacing: -0.025em; margin: 60px 0 22px; color: var(--text);">
+        为什么是这个顺序 · <em style="color: var(--accent); font-style: normal; font-weight: 500;">每一步都在防一种错</em>
+      </h3>
+
+      <div class="three-col">
+        <div class="card">
+          <div class="meta">Explore 防 · 凭印象写</div>
+          <h3>不读 = 猜</h3>
+          <p style="font-size: 16px;">
+            跳过 Explore，Claude 会根据"通用 Spring Boot 项目"的印象写——可能完全不符合本仓库的 LiteFlow / 多租户约定。
+            <strong>用上下文修猜错的代码比用上下文先读一遍贵 5–10 倍。</strong>
+          </p>
+        </div>
+        <div class="card accent">
+          <div class="meta">Plan 防 · 解决错的问题</div>
+          <h3>不规划 = 返工</h3>
+          <p style="font-size: 16px;">
+            跳过 Plan 直接 Code，<strong>平均要返工 2–3 次</strong>——
+            因为"你以为的需求"和"实际可行的方案"很少第一次就重合。
+            Plan 是一份契约，让分歧在动手前暴露。
+          </p>
+        </div>
+        <div class="card">
+          <div class="meta">Code 防 · 看着对其实不对</div>
+          <h3>不验证 = 假完成</h3>
+          <p style="font-size: 16px;">
+            没有跑过测试的代码不能算完成。Claude 会产出"看起来对"的东西。
+            <strong>第 05 章专门讲为什么验证是单一最高杠杆率的实践。</strong>
+          </p>
+        </div>
+      </div>
+
+      <!-- 举例子 -->
+      <h3 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; letter-spacing: -0.025em; margin: 56px 0 22px; color: var(--text);">
+        举个例子 · <em style="color: var(--accent); font-style: normal; font-weight: 500;">"加个收住院押金的接口"</em>
+      </h3>
+
+      <div class="ledger" style="margin-bottom: 36px;">
+        <div style="border-left-color: var(--warn);">
+          <h4>跳过 Plan · 直接 Code</h4>
+          <ul style="font-size: 16px;">
+            <li>"帮我加一个收住院押金的接口"</li>
+            <li>Claude 没考虑现有支付通道封装，自己写了一套</li>
+            <li>提交后才发现要接进 LiteFlow 流程</li>
+            <li>返工：拆掉新写的，改用现有 Flow → 又发现少了多租户上下文 → 再改</li>
+            <li>来回 <strong>3 轮</strong>，约 <strong>1.5 小时</strong></li>
+          </ul>
+        </div>
+        <div style="border-left-color: var(--accent);">
+          <h4>先 Plan · 再 Code</h4>
+          <ul style="font-size: 16px;">
+            <li>"我要加收住院押金接口。先看下现有支付/LiteFlow 怎么走，再给我写方案"</li>
+            <li>Plan 输出：复用 <code>PaymentFlow</code>、加 <code>DepositNode</code>、多租户用 <code>TenantContext</code></li>
+            <li>你扫一眼方案，点头</li>
+            <li>实施 + 验证 + 提交</li>
+            <li><strong>一次过</strong>，约 <strong>30 分钟</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <p style="max-width: 70ch;"><strong>差 3 倍。</strong>越大、越陌生、越跨模块的改动，差距越夸张。</p>
+
+      <!-- 边界条件 -->
+      <div class="two-col" style="margin-top: 44px;">
         <div class="margin-note">
-          <strong>什么时候<em>不</em>该 plan？</strong> 改一行 typo、加个 log、重命名变量 —— 别 plan。Plan 是为了
-          "不确定方向 / 涉及多文件 / 不熟悉的代码"。一句话能描述的 diff 就跳过。
+          <strong>什么时候<em>不</em>该 Plan？</strong>
+          改一行错别字、加一句日志、重命名变量——这些一句话能描述的改动跳过 Plan，
+          硬要 Plan 反而是把时间花在仪式上。Plan 是为<em>不确定方向 / 涉及多文件 / 不熟悉的代码</em>准备的。
           <span class="src">Source · Best Practices §Explore</span>
         </div>
         <div class="margin-note">
-          <strong>大特性？让 Claude 反过来面试你。</strong> 用 <code>AskUserQuestion</code> 工具让它问 30 个问题，
-          覆盖技术 / UX / 边界条件 / 取舍，写完 <code>SPEC.md</code> 再<em>新开一个会话</em>实施。
+          <strong>大特性？让 Claude 反过来面试你。</strong>
+          用 <code>AskUserQuestion</code> 工具让它问你 20–30 个问题，
+          覆盖技术 / UX / 边界 / 取舍，写完 <code>SPEC.md</code> 再<em>新开一个会话</em>实施——
+          研究和实施分两个上下文，省一半 token。
           <span class="src">Source · Best Practices §Interview</span>
         </div>
       </div>
@@ -1096,33 +1448,86 @@
     <!-- ============================= 05 · VERIFY ============================= -->
     <section id="verify" class="spread">
       <div class="eyebrow">Chapter 05 · 验证</div>
-      <div class="asym-r">
-        <div>
-          <h2 class="headline">给它一把<br /><em>尺子。</em></h2>
-          <p class="deck">
-            "Give Claude a way to verify its work."<br />
-            <em>—— 官方文档原话：这是单一最高杠杆率的实践。</em>
+      <h2 class="headline">给它一把<br /><em>尺子。</em></h2>
+      <p class="deck" style="margin-bottom: 44px;">
+        Anthropic 官方原话：<em>"Give Claude a way to verify its work."</em>
+        全套官方建议里，这一条被反复说是<strong>单一最高杠杆率的实践</strong>。本章解释为什么。
+      </p>
+
+      <!-- 为什么 -->
+      <h3 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; letter-spacing: -0.025em; margin: 0 0 22px; color: var(--text);">
+        为什么是最高杠杆率 · <em style="color: var(--accent); font-style: normal; font-weight: 500;">你不是反馈环的<u>替代品</u>，是它的<u>瓶颈</u></em>
+      </h3>
+
+      <p style="max-width: 70ch;">
+        Claude 生成代码靠的是<strong>概率</strong>——它没有"对错"的内置判断，只有"像不像之前见过的可工作代码"的判断。
+        所以它会产出"<em>看起来对</em>但实际不工作"的东西。
+      </p>
+      <p style="max-width: 70ch;">
+        没有验证手段时，<strong>你就是它唯一的反馈环</strong>——它写、你跑、你贴报错、它改、你再跑……
+        循环里每一步都要消耗你的注意力 + 上下文。
+        给它一把尺子（测试 / 编译 / 截图比对），它就能自己跑这个循环，<em>你只需要在它收工时看一眼结论</em>。
+      </p>
+
+      <!-- 一笔账 -->
+      <div class="three-col" style="margin: 36px 0 48px;">
+        <div class="card">
+          <div class="meta">没验证 · 你来兜底</div>
+          <h3>每错一次 <em>~10K</em></h3>
+          <p style="font-size: 16px;">
+            调试一个 Claude 引入的 bug 平均消耗：<br />
+            报错信息 + 你的复述 ≈ 1K · <br />
+            它来回分析 ≈ 5–8K · <br />
+            读相关文件确认 ≈ 5K · <br />
+            <strong>合计约 10–15K token，加你几十分钟。</strong>
           </p>
-          <p>没有验证标准，Claude 会产出"看起来对"但实际不工作的代码。你会变成它的唯一反馈环 —— 每个错误都要消耗你的注意力。</p>
         </div>
-        <div>
-          <div class="ba">
-            <div class="before"><span class="lab">Before · 模糊</span>implement a function that validates email addresses</div>
-            <div class="arrow">→</div>
-            <div class="after"><span class="lab">After · 可验证</span>write a validateEmail function. cases: user@example.com → true, invalid → false. run the tests after implementing</div>
-          </div>
-          <div class="ba">
-            <div class="before"><span class="lab">Before · 模糊</span>make the dashboard look better</div>
-            <div class="arrow">→</div>
-            <div class="after"><span class="lab">After · 可验证</span>[paste screenshot] implement this design. take a screenshot of the result, compare to original, list diffs and fix them</div>
-          </div>
-          <div class="ba">
-            <div class="before"><span class="lab">Before · 模糊</span>the build is failing</div>
-            <div class="arrow">→</div>
-            <div class="after"><span class="lab">After · 可验证</span>build fails with [error]. fix it and verify the build succeeds. address root cause, don't suppress</div>
-          </div>
+        <div class="card accent">
+          <div class="meta">有验证 · 它自己兜</div>
+          <h3>每验一次 <em>~1K</em></h3>
+          <p style="font-size: 16px;">
+            跑一次 <code>mvn compile</code> 或 <code>vitest</code>：<br />
+            命令输出（成功）≈ 200 token · <br />
+            失败时它自己读错误信息 + 修 ≈ 1–2K · <br />
+            <strong>合计 0.5–2K token，10 秒钟。</strong>
+          </p>
+        </div>
+        <div class="card">
+          <div class="meta">差距</div>
+          <h3>5–10 倍</h3>
+          <p style="font-size: 16px;">
+            这就是"<strong>最高杠杆率</strong>"的具体含义——
+            一个 <em>"跑完测试"</em> 的指令，把每次错误的成本砍掉一个数量级。
+            <strong>放进每个任务的 prompt 里都不亏。</strong>
+          </p>
         </div>
       </div>
+
+      <!-- 举例子：模糊 vs 可验证 -->
+      <h3 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; letter-spacing: -0.025em; margin: 0 0 22px; color: var(--text);">
+        举个例子 · <em style="color: var(--accent); font-style: normal; font-weight: 500;">把同一句话改成"可验证"</em>
+      </h3>
+
+      <div class="ba">
+        <div class="before"><span class="lab">模糊</span>实现一个邮箱地址校验函数</div>
+        <div class="arrow">→</div>
+        <div class="after"><span class="lab">可验证</span>写一个 validateEmail 函数。测试：user@example.com → true，invalid → false。实现后跑测试。</div>
+      </div>
+      <div class="ba">
+        <div class="before"><span class="lab">模糊</span>把仪表盘 UI 再改好看点</div>
+        <div class="arrow">→</div>
+        <div class="after"><span class="lab">可验证</span>[贴上设计稿截图] 按这个稿子改。改完截屏，对比原稿列差异，逐项修。</div>
+      </div>
+      <div class="ba">
+        <div class="before"><span class="lab">模糊</span>构建挂了，修一下</div>
+        <div class="arrow">→</div>
+        <div class="after"><span class="lab">可验证</span>构建报错是 [报错文本]。修掉，重新跑构建确认通过。找根因，不要 try-catch 蒙混过去。</div>
+      </div>
+
+      <p style="max-width: 70ch; margin-top: 28px;">
+        共同点：每个"可验证"版本都明确告诉 Claude <strong>怎么知道做完了</strong>——
+        测试用例、像素对比、构建通过。"做完"不再是 Claude 自己判断的，是一个客观的二值信号。
+      </p>
 
       <div class="pull">
         <q>If you can't verify it, don't ship it.</q>
@@ -1130,9 +1535,11 @@
       </div>
 
       <div class="margin-note">
-        在我们这个仓库里：后端用 <code>mvn clean compile</code>，前端用 <code>pnpm build</code>，
-        都已经封装进 <code>verify</code> skill。<strong>所有代码改动后，让 Claude 跑 <code>/verify</code></strong> ——
-        不要靠人眼看 diff。
+        <strong>本仓库的实操：</strong>
+        后端用 <code>mvn clean compile</code>，前端用 <code>pnpm build</code>，
+        两个都已经封进 <code>verify</code> 技能。
+        <strong>所有代码改动后让 Claude 跑 <code>/verify</code></strong>——
+        不要靠人眼看改动，<em>看 diff 不验证就等于在用眼睛跑测试</em>。
         <span class="src">本仓库 · <code>.claude/skills/verify/SKILL.md</code></span>
       </div>
 
@@ -1142,22 +1549,58 @@
     <!-- ============================= 06 · CLAUDE.md ============================= -->
     <section id="claudemd" class="spread">
       <div class="eyebrow">Chapter 06 · CLAUDE.md 纪律</div>
-      <h2 class="headline">把 <em>CLAUDE.md</em> 当代码维护。<br /><span style="font-size: 0.5em; color: var(--ink-soft);">不当文档，当宪法。</span></h2>
+      <h2 class="headline">把 <em>CLAUDE.md</em> 当代码维护。<br /><span style="font-size: 0.5em; color: var(--text-faint);">不当文档，当宪法。</span></h2>
 
-      <div class="two-col">
-        <p>
-          CLAUDE.md 在<strong>每一次启动</strong>都会被注入到对话开头。它是 Claude 在你这个项目里的"先验知识"。
-          越短越好 —— 臃肿的 CLAUDE.md 会让真正重要的规则被淹没。
-        </p>
-        <p>
-          官方建议：<em>对每一行问 —— "删了会不会让 Claude 犯错？" 如果不会，就删</em>。
-          50-100 行是合理上限。详细内容用 <code>@import</code> 拆到 <code>.claude/rules/</code>。
-        </p>
+      <p class="lede" style="max-width: 68ch; margin-bottom: 36px;">
+        <code>CLAUDE.md</code> 是<strong>每一次会话启动都会被自动注入</strong>到对话开头的文件——
+        Claude 还没看到你说话之前，先看完它。
+        所以这份文件不是项目说明书，是<em>这个项目下 Claude 的"宪法"</em>：定基调、定红线、定本仓库特有的东西。
+      </p>
+
+      <!-- 为什么越短越好 -->
+      <h3 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; letter-spacing: -0.025em; margin: 0 0 22px; color: var(--text);">
+        为什么越短越好 · <em style="color: var(--accent); font-style: normal; font-weight: 500;">每次启动都在收税</em>
+      </h3>
+
+      <div class="three-col" style="margin-bottom: 44px;">
+        <div class="card">
+          <div class="meta">税单 · 字数 → token</div>
+          <h3>50 行 ≈ 2K</h3>
+          <p style="font-size: 16px;">
+            一行中文 / Markdown 约 30–50 token：<br />
+            <strong>50 行 ≈ 2,000 token</strong><br />
+            <strong>200 行 ≈ 8,000 token</strong><br />
+            <strong>800 行 ≈ 30,000 token</strong>
+          </p>
+        </div>
+        <div class="card accent">
+          <div class="meta">税单 · 启动占比</div>
+          <h3>800 行 = 吃 15% 窗口</h3>
+          <p style="font-size: 16px;">
+            一份 800 行的臃肿 <code>CLAUDE.md</code> ——
+            <strong>你还没说话，主上下文已经少了 15%。</strong>
+            一天工作下来累计就是几十次启动税。
+          </p>
+        </div>
+        <div class="card">
+          <div class="meta">税单 · 注意力衰减</div>
+          <h3>规则会被淹没</h3>
+          <p style="font-size: 16px;">
+            模型对长指令存在"<strong>遵循衰减</strong>"——越靠后越容易被忘。
+            一份 50 行的 <code>CLAUDE.md</code>，每条都会被记得；
+            一份 800 行的，<em>关键 5 条混在 795 行废话里</em>，违反频率显著上升。
+          </p>
+        </div>
       </div>
+
+      <p style="max-width: 70ch; margin-bottom: 36px;">
+        所以官方建议是一句话：<em>对每一行都问"删了会不会让 Claude 犯错？" 如果不会，就删</em>。
+        50–100 行是合理上限。再多的内容用 <code>@import</code> 拆到 <code>.claude/rules/</code>，按需加载。
+      </p>
 
       <div class="ledger">
         <div>
-          <h4>✓ 应该写进 CLAUDE.md</h4>
+          <h4>应该写进 CLAUDE.md</h4>
           <ul>
             <li>Claude 无法猜到的 bash 命令</li>
             <li>与默认不同的代码风格</li>
@@ -1169,7 +1612,7 @@
           </ul>
         </div>
         <div>
-          <h4>✕ 不要写进 CLAUDE.md</h4>
+          <h4>不要写进 CLAUDE.md</h4>
           <ul>
             <li>Claude 读代码就能知道的东西</li>
             <li>标准语言惯例（"用 ===")</li>
@@ -1184,22 +1627,22 @@
 
       <div class="three-col">
         <div class="card">
-          <div class="corner">📁 全局</div>
+          <div class="corner">全局</div>
           <div class="meta">~/.claude/CLAUDE.md</div>
           <h3>个人偏好</h3>
-          <p style="font-size: 14px; color: var(--ink-soft);">跨所有项目生效 · 不进仓库 · 写你的 RTK、你的提交风格、你的<em>个人</em>癖好。</p>
+          <p style="font-size: 16px;">跨所有项目生效 · 不进仓库 · 写你的 RTK、你的提交风格、你的<em>个人</em>癖好。</p>
         </div>
         <div class="card accent">
-          <div class="corner">📁 项目</div>
+          <div class="corner">项目</div>
           <div class="meta">./CLAUDE.md</div>
           <h3>团队宪法</h3>
-          <p style="font-size: 14px; color: var(--ink-soft);">进 git · 全员共享 · 模块、架构、踩坑区。<em>本仓库根目录已经做得很好</em> —— 看一遍就懂。</p>
+          <p style="font-size: 16px;">进 git · 全员共享 · 模块、架构、踩坑区。<em>本仓库根目录已经做得很好</em> —— 看一遍就懂。</p>
         </div>
         <div class="card">
-          <div class="corner">📁 私有</div>
+          <div class="corner">私有</div>
           <div class="meta">./CLAUDE.local.md</div>
           <h3>个人项目笔记</h3>
-          <p style="font-size: 14px; color: var(--ink-soft);">进 .gitignore · 只你看 · 写你和这个仓库的"小秘密"——临时密钥、还在尝试的工作流。</p>
+          <p style="font-size: 16px;">进 .gitignore · 只你看 · 写你和这个仓库的"小秘密" —— 临时密钥、还在尝试的工作流。</p>
         </div>
       </div>
 
@@ -1207,7 +1650,7 @@
 
       <div class="asym-r">
         <div>
-          <h3 style="font-size: 36px; margin: 0 0 12px; font-family: var(--font-display);">一部宪法<br /><em style="color: var(--accent-deep); font-style: italic;">＋ 一份地方性法规</em>。</h3>
+          <h3 style="font-size: 36px; margin: 0 0 14px;">一部宪法<br /><em style="color: var(--accent); font-style: normal; font-weight: 500;">＋ 一份地方性法规</em>。</h3>
           <p>
             根目录 <code>CLAUDE.md</code> 定<strong>基调</strong>：项目是什么、架构怎么分、有哪些踩坑区。
             子目录 <code>CLAUDE.md</code> 定<strong>地方规矩</strong>：跑哪条命令、用哪个测试入口、本模块的特有约定。
@@ -1218,7 +1661,7 @@
           </p>
         </div>
         <div>
-<pre style="font-size: 12px; box-shadow: 4px 4px 0 var(--accent); margin-top: 0;"><span class="cmt"># 根 · 定基调</span>
+<pre style="font-size: 14px; margin-top: 0;"><span class="cmt"># 根 · 定基调</span>
 JeecgBoot/CLAUDE.md
   ├─ 项目是什么
   ├─ 模块图 / 架构
@@ -1239,7 +1682,7 @@ JeecgBoot/CLAUDE.md
 
       <div class="two-col">
         <div>
-          <h3 style="font-size: 36px; margin: 0 0 12px; font-family: var(--font-display);">约束<em style="color: var(--accent-deep); font-style: italic;">有保质期</em>。</h3>
+          <h3 style="font-size: 36px; margin: 0 0 14px;">约束<em style="color: var(--accent); font-style: normal; font-weight: 500;">有保质期</em>。</h3>
           <p>
             <strong>每 3–6 个月，或每次模型大版本之后，回头审一遍 CLAUDE.md</strong>。
             旧模型时代写下的"安全网"，到新模型上常常变成束缚。
@@ -1250,13 +1693,13 @@ JeecgBoot/CLAUDE.md
             一个真实例子：旧模型容易把跨文件改动搞乱，于是有团队在 CLAUDE.md 里写"一次只改一个文件"。
             新模型完全能处理协调的多文件编辑 —— 这条规则就从护栏变成了限速带。
           </p>
-          <p style="font-size: 15px; color: var(--ink-soft);">
+          <p style="font-size: 16px;">
             <strong>翻修清单：</strong>哪条规则去年很重要、今年看是冗余的？哪条还在天天被违反、其实该改成 hook？哪条根本没人记得为啥写的？
           </p>
         </div>
       </div>
 
-      <div class="margin-note" style="margin-top: 40px;">
+      <div class="margin-note" style="margin-top: 44px;">
         <strong>失败信号：</strong>如果 Claude 反复违反 CLAUDE.md 里的某条规则 ——
         不是它笨，是规则被噪声淹没了。删 50% 内容比加"IMPORTANT"前缀更有效。
         <span class="src">Source · Best Practices §CLAUDE.md</span>
@@ -1270,30 +1713,115 @@ JeecgBoot/CLAUDE.md
       <div class="eyebrow">Chapter 07 · 上下文管理</div>
       <h2 class="headline"><em>上下文</em>是最稀缺资源 —<br />花掉它，就回不来。</h2>
 
-      <div class="two-col">
+      <p class="lede" style="max-width: 68ch; margin-bottom: 48px;">
+        上下文 = 这一次会话里 Claude 能"记得"的全部东西 —— 你说过的话、它读过的文件、它跑过的命令的输出。
+        它有一个<strong>固定上限</strong>，每次启动从零开始算，<strong>用完了不能续杯</strong>。
+        本章只回答一个问题 —— <em>为什么这玩意儿这么稀缺，又怎么省着花</em>。
+      </p>
+
+      <!-- 为什么稀缺 -->
+      <h3 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; letter-spacing: -0.025em; margin: 0 0 22px; color: var(--text);">
+        为什么稀缺 · <em style="color: var(--accent); font-style: normal; font-weight: 500;">20 万看着多，烧起来很快</em>
+      </h3>
+
+      <div class="three-col" style="margin-bottom: 48px;">
+        <div class="card">
+          <div class="meta">上限</div>
+          <h3>约 20 万 token</h3>
+          <p style="font-size: 16px;">
+            Sonnet 默认窗口约 <strong>200,000 token</strong>，Opus 长上下文版到 1,000,000。
+            一行中文大约 30–50 token，一行 Java 代码 10–20 token。
+            看着像个大水池，<em>放水比想象中快</em>。
+          </p>
+        </div>
+        <div class="card">
+          <div class="meta">单次消耗</div>
+          <h3>动辄数万</h3>
+          <p style="font-size: 16px;">
+            读一个 500 行的源文件 ≈ <strong>5,000–10,000</strong> token；<br />
+            全仓 <code>grep</code> 返回几千行匹配 ≈ <strong>2–5 万</strong> token；<br />
+            一次失败的调试来回（读 3 文件 + 跑测试 + 看报错）≈ <strong>2–3 万</strong> token。
+          </p>
+        </div>
+        <div class="card accent">
+          <div class="meta">性能曲线</div>
+          <h3>用过一半就降级</h3>
+          <p style="font-size: 16px;">
+            Anthropic 官方原话：<em>"context window fills up fast, and performance degrades as it fills."</em>
+            社区共识是：用过<strong>一半</strong>开始遗忘早期约束；<strong>三分之二</strong>之后不按要求走；接近满会出现幻觉。
+          </p>
+        </div>
+      </div>
+
+      <!-- 举例子 -->
+      <h3 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; letter-spacing: -0.025em; margin: 0 0 22px; color: var(--text);">
+        举个例子 · <em style="color: var(--accent); font-style: normal; font-weight: 500;">一次跨模块调试有多贵</em>
+      </h3>
+
+      <div style="border: 1px solid var(--border); border-radius: 8px; padding: 28px 32px; background: var(--bg-elevated); margin-bottom: 48px;">
+        <p style="margin: 0 0 18px; font-size: 17px;">
+          <strong>场景：</strong>你在 <code>JeecgBoot</code> 里查一个跨模块的 bug ——
+          "<code>his-zhiye</code> 模块发起的请求，<code>internet-hospital</code> 那边没收到"。让 Claude 帮你查：
+        </p>
+        <table style="width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 15px;">
+          <tbody>
+            <tr><td style="padding: 8px 0; color: var(--text-soft);">①&nbsp;&nbsp;全仓 <code>grep</code> 路由关键字</td><td style="padding: 8px 0; text-align: right; color: var(--accent); font-weight: 500;">~30,000 token</td></tr>
+            <tr><td style="padding: 8px 0; color: var(--text-soft);">②&nbsp;&nbsp;打开 4 个相关 controller / service 文件</td><td style="padding: 8px 0; text-align: right; color: var(--accent); font-weight: 500;">~30,000 token</td></tr>
+            <tr><td style="padding: 8px 0; color: var(--text-soft);">③&nbsp;&nbsp;跑一次 <code>mvn compile</code> 看编译报错</td><td style="padding: 8px 0; text-align: right; color: var(--accent); font-weight: 500;">~5,000 token</td></tr>
+            <tr><td style="padding: 8px 0; color: var(--text-soft);">④&nbsp;&nbsp;Claude 来回分析 + 你的追问</td><td style="padding: 8px 0; text-align: right; color: var(--accent); font-weight: 500;">~10,000 token</td></tr>
+          </tbody>
+        </table>
+        <hr class="rule" style="margin: 18px 0;" />
+        <p style="margin: 0; font-size: 17px;">
+          <strong>合计约 75,000 token</strong> —— 已经吃掉
+          <strong style="color: var(--accent);">约 37% 的窗口</strong>，而你这才<em>刚开始定位问题</em>。
+        </p>
+        <p style="margin: 14px 0 0; font-size: 16px; color: var(--text-soft);">
+          如果它走错路又翻 5 个文件，接近一半。这时你顺手再问一句"对了，多租户那块怎么配的？" ——
+          主任务的上下文就被另一件事彻底污染了。
+          <strong>这就是为什么"每个独立任务开新会话"是最高频建议</strong> —— 不是洁癖，是保住剩余预算。
+        </p>
+      </div>
+
+      <!-- 怎么省 -->
+      <h3 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; letter-spacing: -0.025em; margin: 0 0 22px; color: var(--text);">
+        怎么省着花 · <em style="color: var(--accent); font-style: normal; font-weight: 500;">三条铁律 + 一张指令表</em>
+      </h3>
+
+      <div class="two-col" style="margin-bottom: 36px;">
         <div>
-          <p class="lede">
-            一个调试 session 能消耗几万 token。一个全仓搜索能再消耗几万。当窗口被填满，Claude 开始"忘记"先前的指令，犯更多错误。
+          <p>
+            <strong>铁律 1 · 每个独立任务开新会话。</strong>
+            修 bug A 顺手问 B，就是上下文污染的头号来源。任务边界等于会话边界。
           </p>
           <p>
-            <strong>最高频建议（来自经验最丰富的用户）：每个任务开新 session</strong>。任务间用 <code>/clear</code> 重置。
-            70% 用量时主动 compact。
+            <strong>铁律 2 · 用过一半就主动压缩或清空。</strong>
+            Claude 不一定会主动提醒你。看到顶部进度条接近 50%：
+            要继续同一任务就 <code>/compact</code>（压缩历史、保留关键决策）；
+            要换话题就 <code>/clear</code>（彻底归零）。两个都是免费的。
+          </p>
+          <p>
+            <strong>铁律 3 · 大块脏活交给子代理。</strong>
+            上面例子里的 ①②两步如果派给子代理跑：子代理在自己那个独立窗口里烧 60K token 没关系（跟你的主会话隔开），
+            <em>主会话只多了一段 1–2K 的摘要</em>。
+            <strong style="color: var(--accent);">省了约 95% 的上下文。</strong>
+            这是上下文管理的最大杠杆 —— 第 10 章细讲。
           </p>
         </div>
         <div>
           <table class="compare" style="margin: 0;">
             <thead>
-              <tr><th>命令</th><th>用途</th></tr>
+              <tr><th>会话指令</th><th>用途</th></tr>
             </thead>
             <tbody>
-              <tr><td><code>/clear</code></td><td>无关任务之间·彻底重置上下文</td></tr>
+              <tr><td><code>/clear</code></td><td>无关任务之间·彻底清空上下文</td></tr>
               <tr><td><code>/compact</code></td><td>主动压缩历史·保留关键决策</td></tr>
-              <tr><td><code>/rewind</code> <span class="kbd">Esc Esc</span></td><td>回退到任意 checkpoint·撤销改动</td></tr>
+              <tr><td><code>/rewind</code> <span class="kbd">Esc Esc</span></td><td>回退到任意检查点·撤销改动</td></tr>
               <tr><td><code>/btw</code></td><td>问一个不影响主线的小问题</td></tr>
               <tr><td><span class="kbd">Esc</span></td><td>立刻中断·保留上下文</td></tr>
-              <tr><td><code>--continue</code></td><td>继续上一次 session</td></tr>
-              <tr><td><code>--resume</code></td><td>从历史 session 列表中选</td></tr>
-              <tr><td><code>/rename</code></td><td>给 session 起名·跨天找回</td></tr>
+              <tr><td><code>--continue</code></td><td>继续上一次会话</td></tr>
+              <tr><td><code>--resume</code></td><td>从历史会话列表里挑一条</td></tr>
+              <tr><td><code>/rename</code></td><td>给会话起名·跨天找回</td></tr>
             </tbody>
           </table>
         </div>
@@ -1303,20 +1831,21 @@ JeecgBoot/CLAUDE.md
 
       <div class="asym">
         <div>
-          <h3 style="font-size: 36px; margin: 0 0 12px;">Subagent ——<br />上下文的<em>会计</em>。</h3>
+          <h3 style="font-size: 36px; margin: 0 0 14px;">子代理 ——<br /><em style="color: var(--accent); font-style: normal; font-weight: 500;">上下文的会计</em></h3>
         </div>
         <div>
           <p>
-            研究、审查、跨模块搜索 —— 这些任务会读几十个文件，全进主上下文就是灾难。
-            把它们交给 subagent：在独立窗口里跑，<em>只把摘要回传给你</em>。
+            子代理（subagent）的本质：另开一个 Claude 在独立窗口里干活，干完<strong>只回传一段摘要</strong>给主会话。
+            上下文隔离 + 只取结论 = 主会话的 token 余额几乎不动。
           </p>
-          <pre><span class="cmt"># 不要这样</span>
+          <pre><span class="cmt"># 反例：让主会话自己读所有文件</span>
 read all auth files and tell me how OAuth works...
-<span class="cmt"># 主上下文瞬间膨胀 50K tokens</span>
+<span class="cmt"># → 主上下文瞬间 +50,000 token，能用空间打了对折</span>
 
-<span class="cmt"># 应该这样</span>
+<span class="cmt"># 正例：派给子代理</span>
 <span class="kw">use a subagent to investigate</span> how our auth
-system handles token refresh. report findings.</pre>
+system handles token refresh. report findings.
+<span class="cmt"># → 主上下文只 +1,500 token，节省约 97%</span></pre>
         </div>
       </div>
 
@@ -1327,58 +1856,110 @@ system handles token refresh. report findings.</pre>
     <section id="prompt" class="spread">
       <div class="eyebrow">Chapter 08 · 提示词的精度</div>
       <h2 class="headline">具体 ＝ <em>更少修正</em>。<br />模糊 ＝ 你来当 QA。</h2>
+      <p class="deck" style="margin-bottom: 44px;">
+        Claude 能推断意图，但读不到你脑子里。<em>模糊和具体的差距，不是风格问题，是返工次数问题。</em>
+      </p>
 
-      <div class="two-col">
-        <p>
-          Claude 能推断意图，但读不到你脑子里。<strong>引用具体文件、提约束、指向已有模式</strong> ——
-          这三件事能把返工量砍掉一半。
-        </p>
-        <div class="margin-note">
-          <strong>例外：</strong>探索阶段反而要用模糊的 prompt。
-          <em>"this file 里你会改进什么？"</em> 能挖出你没想到要问的事。
-          <span class="src">Best Practices §Prompts</span>
+      <!-- 为什么 -->
+      <h3 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; letter-spacing: -0.025em; margin: 0 0 22px; color: var(--text);">
+        为什么具体 = 少返工 · <em style="color: var(--accent); font-style: normal; font-weight: 500;">把"概率分布"塌缩成一个分支</em>
+      </h3>
+
+      <p style="max-width: 70ch;">
+        模型对每个词的理解是<strong>概率分布</strong>——一句"加个测试"，它可能理解成：单元测试、集成测试、端到端测试；用 mock、不用 mock；覆盖正常路径、还是边界条件。
+        <strong>它必须选一个走</strong>。选对了你满意；选错了——你只能返工。
+      </p>
+
+      <div class="three-col" style="margin: 28px 0 44px;">
+        <div class="card">
+          <div class="meta">模糊 prompt</div>
+          <h3>平均返工 <em>2–3 次</em></h3>
+          <p style="font-size: 16px;">
+            "加个测试" → Claude 选了它认为最常见的解释 → 不对 → 你纠正 → 改 → 又不全对 → 再改。
+            <strong>每次返工 ≈ 5–10K token + 几分钟。</strong>
+          </p>
+        </div>
+        <div class="card accent">
+          <div class="meta">具体 prompt</div>
+          <h3>多数 <em>一次过</em></h3>
+          <p style="font-size: 16px;">
+            "为 <code>foo.py</code> 加一个测试，覆盖『用户未登录』的边界条件，不要 mock" →
+            方向锁死、范围锁死、约束锁死。<strong>第一次产出就是你要的。</strong>
+          </p>
+        </div>
+        <div class="card">
+          <div class="meta">代价对比</div>
+          <h3>差 <em>5–10 倍</em></h3>
+          <p style="font-size: 16px;">
+            模糊 prompt 累计 20–30K token + 你 15 分钟；
+            具体 prompt 5K token + 你 2 分钟。
+            <strong>多花 30 秒打字 = 省 13 分钟来回。</strong>
+          </p>
         </div>
       </div>
 
+      <!-- 举例子 · 三段式 -->
+      <h3 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; letter-spacing: -0.025em; margin: 0 0 22px; color: var(--text);">
+        举个例子 · <em style="color: var(--accent); font-style: normal; font-weight: 500;">把同一句话改成"具体"</em>
+      </h3>
+
       <div class="ba">
-        <div class="before"><span class="lab">Before</span>add tests for foo.py</div>
+        <div class="before"><span class="lab">模糊</span>给 foo.py 加测试</div>
         <div class="arrow">→</div>
-        <div class="after"><span class="lab">After · 限定范围</span>write a test for foo.py covering the edge case where the user is logged out. avoid mocks.</div>
+        <div class="after"><span class="lab">具体 · 限定范围</span>给 foo.py 加测试，覆盖"用户未登录"的边界条件，不要用 mock。</div>
       </div>
       <div class="ba">
-        <div class="before"><span class="lab">Before</span>why does ExecutionFactory have such a weird api?</div>
+        <div class="before"><span class="lab">模糊</span>为什么 ExecutionFactory 的 API 这么怪？</div>
         <div class="arrow">→</div>
-        <div class="after"><span class="lab">After · 指向来源</span>look through ExecutionFactory's git history and summarize how its api came to be</div>
+        <div class="after"><span class="lab">具体 · 指向来源</span>翻一下 ExecutionFactory 的 git history，总结一下它的 API 是怎么演变成今天这样的。</div>
       </div>
       <div class="ba">
-        <div class="before"><span class="lab">Before</span>add a calendar widget</div>
+        <div class="before"><span class="lab">模糊</span>加个日历组件</div>
         <div class="arrow">→</div>
-        <div class="after"><span class="lab">After · 引用模式</span>look at HotDogWidget.php to understand patterns. follow it to build a calendar widget that lets the user select a month and paginate ...</div>
+        <div class="after"><span class="lab">具体 · 引用模式</span>看一下 HotDogWidget.vue 是怎么写的；照它的模式做一个日历组件，让用户能按月选择和翻页。</div>
       </div>
       <div class="ba">
-        <div class="before"><span class="lab">Before</span>fix the login bug</div>
+        <div class="before"><span class="lab">模糊</span>修一下登录的 bug</div>
         <div class="arrow">→</div>
-        <div class="after"><span class="lab">After · 症状·位置·成功标准</span>users report login fails after session timeout. check token refresh in src/auth/. write a failing test reproducing it, then fix it</div>
+        <div class="after"><span class="lab">具体 · 症状+位置+成功标准</span>用户反馈：会话超时后登录失败。看 src/auth/ 里的 token 刷新逻辑。先写一个能复现这个 bug 的失败测试，再去修。</div>
       </div>
 
+      <p style="max-width: 70ch; margin-top: 28px;">
+        共同模式：<strong>"动作 + 范围 + 约束 + 成功标准"</strong>。
+        多出来的几十个字是给 Claude 的护栏——它不再需要猜。
+      </p>
+
       <hr class="rule" />
+
+      <!-- 三种把上下文喂进来的快捷方式 -->
+      <h3 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; letter-spacing: -0.025em; margin: 0 0 22px; color: var(--text);">
+        三种把上下文塞给它的方式
+      </h3>
 
       <div class="three-col">
         <div class="card">
           <div class="corner">@</div>
           <h3>引用 <em>文件</em></h3>
-          <p style="font-size: 14px; color: var(--ink-soft);">用 <code>@path/to/file</code> 而不是描述代码在哪。Claude 会在回答前读它。</p>
+          <p style="font-size: 16px;">用 <code>@path/to/file</code> 而不是用文字描述代码在哪。Claude 回答前会自动读它，<strong>比你嘴说一遍准 10 倍</strong>。</p>
         </div>
         <div class="card">
           <div class="corner">⌘V</div>
-          <h3>粘贴 <em>图片</em></h3>
-          <p style="font-size: 14px; color: var(--ink-soft);">截图直接粘进 prompt。UI / 报错弹窗 / 设计稿 —— 比文字描述准 10 倍。</p>
+          <h3>粘贴 <em>截图</em></h3>
+          <p style="font-size: 16px;">UI 不对、报错弹窗、设计稿——直接截图粘进对话框。<strong>一张图能省一段几百字的"我看到的是这样"</strong>。</p>
         </div>
         <div class="card">
           <div class="corner">|</div>
           <h3>管道 <em>数据</em></h3>
-          <p style="font-size: 14px; color: var(--ink-soft);"><code>cat error.log | claude -p "找异常"</code>。让 stdin 把上下文喂进去。</p>
+          <p style="font-size: 16px;"><code>cat error.log | claude -p "找异常"</code>——让 stdin 直接把上下文喂进去。<strong>适合处理超长日志、JSON、CSV。</strong></p>
         </div>
+      </div>
+
+      <div class="margin-note" style="margin-top: 40px;">
+        <strong>例外：探索阶段反而要用模糊。</strong>
+        当你想知道 Claude 怎么看这块代码——"<em>看一眼这个文件，你会建议改哪里？</em>"——
+        反而能挖出你<em>没想到要问的事</em>。
+        模糊和具体不是对立，是配合：探索时模糊、动手时具体。
+        <span class="src">Source · Best Practices §Prompts</span>
       </div>
 
       <div class="folio"><span>№ 01</span><span>08 / 14 · PROMPT PRECISION</span><span>SPECIFICITY WINS</span></div>
@@ -1391,7 +1972,7 @@ system handles token refresh. report findings.</pre>
 
       <div class="fail-list">
         <div class="row">
-          <div class="n">i.</div>
+          <div class="n">01</div>
           <div>
             <h3 class="title">The Kitchen Sink Session</h3>
             <p class="desc">你开了个 session 修 bug A，顺手问了个 B，又回来改 A。三件事的上下文搅在一起。</p>
@@ -1403,7 +1984,7 @@ system handles token refresh. report findings.</pre>
         </div>
 
         <div class="row">
-          <div class="n">ii.</div>
+          <div class="n">02</div>
           <div>
             <h3 class="title">Correcting Over And Over</h3>
             <p class="desc">Claude 错了，你纠正；又错，你再纠正；第三次还错。上下文已经被失败的尝试污染。</p>
@@ -1415,7 +1996,7 @@ system handles token refresh. report findings.</pre>
         </div>
 
         <div class="row">
-          <div class="n">iii.</div>
+          <div class="n">03</div>
           <div>
             <h3 class="title">The Over-Specified CLAUDE.md</h3>
             <p class="desc">你的 CLAUDE.md 已经 800 行。重要的规则被淹没在噪音里。</p>
@@ -1427,7 +2008,7 @@ system handles token refresh. report findings.</pre>
         </div>
 
         <div class="row">
-          <div class="n">iv.</div>
+          <div class="n">04</div>
           <div>
             <h3 class="title">The Trust-Then-Verify Gap</h3>
             <p class="desc">Claude 产出了"看起来对"的代码 —— 你没验证就 commit 了。第二天测试挂在 CI 上。</p>
@@ -1439,7 +2020,7 @@ system handles token refresh. report findings.</pre>
         </div>
 
         <div class="row">
-          <div class="n">v.</div>
+          <div class="n">05</div>
           <div>
             <h3 class="title">The Infinite Exploration</h3>
             <p class="desc">你让 Claude "看看这个项目"。它读了 200 个文件。你的上下文已经满了，还没开始干活。</p>
@@ -1464,8 +2045,8 @@ system handles token refresh. report findings.</pre>
         <div class="card accent">
           <div class="corner">Headless</div>
           <h3><em>非交互</em> 模式</h3>
-          <p style="font-size: 14px; color: var(--ink-soft);">塞进 CI、pre-commit hook、shell 脚本。给固定输入，拿结构化输出。</p>
-          <pre style="font-size: 12px; box-shadow: 4px 4px 0 var(--accent);"><span class="cmt"># 一行命令</span>
+          <p style="font-size: 16px;">塞进 CI、pre-commit hook、shell 脚本。给固定输入，拿结构化输出。</p>
+          <pre style="font-size: 14px;"><span class="cmt"># 一行命令</span>
 claude -p <span class="str">"explain this"</span>
 
 <span class="cmt"># 结构化输出</span>
@@ -1476,8 +2057,8 @@ claude -p <span class="str">"list endpoints"</span> \
         <div class="card">
           <div class="corner">Worktree</div>
           <h3><em>并行</em> session</h3>
-          <p style="font-size: 14px; color: var(--ink-soft);">用 git worktree 把同一个仓库 checkout 到 N 个目录，每个跑一个 Claude，互不污染。</p>
-          <pre style="font-size: 12px; box-shadow: 4px 4px 0 var(--ink);">git worktree add ../wt-a feature-a
+          <p style="font-size: 16px;">用 git worktree 把同一个仓库 checkout 到 N 个目录，每个跑一个 Claude，互不污染。</p>
+          <pre style="font-size: 14px;">git worktree add ../wt-a feature-a
 git worktree add ../wt-b feature-b
 <span class="cmt"># 两个 Claude 同时干</span></pre>
         </div>
@@ -1485,8 +2066,8 @@ git worktree add ../wt-b feature-b
         <div class="card">
           <div class="corner">Fan-Out</div>
           <h3><em>批量</em> 处理</h3>
-          <p style="font-size: 14px; color: var(--ink-soft);">大型迁移、批量审计 —— 用 for 循环跑 N 次 <code>claude -p</code>，每次处理一个文件。</p>
-          <pre style="font-size: 12px; box-shadow: 4px 4px 0 var(--blue);">for f in <span class="str">$(cat files.txt)</span>; do
+          <p style="font-size: 16px;">大型迁移、批量审计 —— 用 for 循环跑 N 次 <code>claude -p</code>，每次处理一个文件。</p>
+          <pre style="font-size: 14px;">for f in <span class="str">$(cat files.txt)</span>; do
   claude -p <span class="str">"migrate $f. OK or FAIL"</span> \
     --allowedTools <span class="str">"Edit"</span>
 done</pre>
@@ -1497,10 +2078,10 @@ done</pre>
 
       <div class="asym">
         <div>
-          <h3 style="font-size: 40px; margin: 0 0 12px;">Writer<br /><em>×</em><br />Reviewer.</h3>
+          <h3 style="font-size: 40px; margin: 0 0 14px;">Writer<br /><em style="color: var(--accent); font-style: normal; font-weight: 500;">×</em><br />Reviewer.</h3>
         </div>
         <div>
-          <p style="font-size: 17px;">
+          <p style="font-size: 16px;">
             <em>Session A</em> 写代码 → <em>Session B</em>（独立上下文 · 没看过 A 的实现细节）做 code review →
             把 review 反馈喂回 A 修。
           </p>
@@ -1536,7 +2117,7 @@ done</pre>
         <span class="ln">│ &nbsp;&nbsp;│ &nbsp;&nbsp;├── code-style.md &nbsp;&nbsp;<span class="c">// Lombok / @Dict / @Schema / bizPath</span></span>
         <span class="ln">│ &nbsp;&nbsp;│ &nbsp;&nbsp;├── database.md &nbsp;&nbsp;<span class="c">// 建表规范 · 字段命名 · 索引</span></span>
         <span class="ln">│ &nbsp;&nbsp;│ &nbsp;&nbsp;├── logging.md &nbsp;&nbsp;<span class="c">// ERROR/WARN 判定 · MDC · vendor body</span></span>
-        <span class="ln">│ &nbsp;&nbsp;│ &nbsp;&nbsp;└── ...</span></span>
+        <span class="ln">│ &nbsp;&nbsp;│ &nbsp;&nbsp;└── ...</span>
         <span class="ln">│ &nbsp;&nbsp;└── <span class="b">skills/</span> &nbsp;&nbsp;<span class="c">// 可调用的工作流（30+）</span></span>
         <span class="ln">│ &nbsp;&nbsp; &nbsp;&nbsp;├── <span class="a">verify/</span> &nbsp;&nbsp;<span class="c">// 编译 + lint + 类型检查</span></span>
         <span class="ln">│ &nbsp;&nbsp; &nbsp;&nbsp;├── <span class="a">diagnose/</span> &nbsp;&nbsp;<span class="c">// 抓 Loki 日志 + 定位根因</span></span>
@@ -1544,8 +2125,8 @@ done</pre>
         <span class="ln">│ &nbsp;&nbsp; &nbsp;&nbsp;├── jeecg-online-forms/ &nbsp;&nbsp;<span class="c">// Online 表单配置</span></span>
         <span class="ln">│ &nbsp;&nbsp; &nbsp;&nbsp;├── jeecg-online-java-enhance/ &nbsp;&nbsp;<span class="c">// Java 增强模式</span></span>
         <span class="ln">│ &nbsp;&nbsp; &nbsp;&nbsp;├── tengmed-ai/ &nbsp;&nbsp;<span class="c">// 腾讯健康 AI 对接</span></span>
-        <span class="ln">│ &nbsp;&nbsp; &nbsp;&nbsp;├── cms-admin-config/ · cms-miniapp-api/</span></span>
-        <span class="ln">│ &nbsp;&nbsp; &nbsp;&nbsp;└── ... (jeecg-ai · jeecg-annotations · jeecg-permissions · ...)</span></span>
+        <span class="ln">│ &nbsp;&nbsp; &nbsp;&nbsp;├── cms-admin-config/ · cms-miniapp-api/</span>
+        <span class="ln">│ &nbsp;&nbsp; &nbsp;&nbsp;└── ... (jeecg-ai · jeecg-annotations · jeecg-permissions · ...)</span>
         <span class="ln">├── <span class="b">jeecg-boot/jeecg-boot-module/</span></span>
         <span class="ln">│ &nbsp;&nbsp;├── jeecg-module-his-zhiye/<span class="a">CLAUDE.md</span> &nbsp;&nbsp;<span class="c">// 模块级宪法</span></span>
         <span class="ln">│ &nbsp;&nbsp;├── jeecg-module-internet-hospital/<span class="a">CLAUDE.md</span></span>
@@ -1556,25 +2137,25 @@ done</pre>
         <span class="ln"> &nbsp;&nbsp;&nbsp;&nbsp;└── MEMORY.md &nbsp;&nbsp;<span class="c">// 索引</span></span>
       </div>
 
-      <div class="three-col" style="margin-top: 40px;">
+      <div class="three-col" style="margin-top: 44px;">
         <div class="card">
           <div class="corner">Daily Use</div>
           <h3><code>/verify</code></h3>
-          <p style="font-size: 14px;">改完代码立刻跑。后端 mvn compile + 前端 lint。</p>
+          <p style="font-size: 16px;">改完代码立刻跑。后端 mvn compile + 前端 lint。</p>
         </div>
         <div class="card">
           <div class="corner">When Stuck</div>
           <h3><code>/diagnose</code></h3>
-          <p style="font-size: 14px;">用户给截图/报错 → 自动抓 Loki 日志 → 结合代码定位根因。</p>
+          <p style="font-size: 16px;">用户给截图/报错 → 自动抓 Loki 日志 → 结合代码定位根因。</p>
         </div>
         <div class="card">
           <div class="corner">Weekly</div>
           <h3><code>/scout</code></h3>
-          <p style="font-size: 14px;">项目自检：文档漂移、日志噪声、memory 过期。每周扫一遍。</p>
+          <p style="font-size: 16px;">项目自检：文档漂移、日志噪声、memory 过期。每周扫一遍。</p>
         </div>
       </div>
 
-      <div class="margin-note" style="margin-top: 32px;">
+      <div class="margin-note" style="margin-top: 36px;">
         <strong>团队作业：</strong>培训之后两周内，每人至少加 1 条 rule、修 1 个 skill、或写 1 条新的 module CLAUDE.md。
         把"我自己反复教 Claude 的事"沉淀进仓库。
         <span class="src">本次培训产出物</span>
@@ -1587,91 +2168,126 @@ done</pre>
     <section id="governance" class="spread">
       <div class="eyebrow">Chapter 12 · 团队治理</div>
       <h2 class="headline">工具有了 ——<br /><em>谁来管</em>这套工具？</h2>
-      <p class="deck">
-        Anthropic 把这一题单列出来是有原因的：受监管行业、跨团队协作、上千人规模 ——
-        Claude Code 的成败一半在配置，一半在<em>谁负责</em>那份配置。
+      <p class="deck" style="margin-bottom: 44px;">
+        前 11 章讲怎么用。这一章讲一件容易被忽略的事：<em>这套工具会不会一年后烂掉，决定权不在工具，在团队怎么管它</em>。
       </p>
 
-      <div class="three-col" style="margin-top: 40px;">
+      <!-- 为什么 -->
+      <h3 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; letter-spacing: -0.025em; margin: 0 0 22px; color: var(--text);">
+        为什么要管 · <em style="color: var(--accent); font-style: normal; font-weight: 500;">不管的代价是看得见的</em>
+      </h3>
+
+      <div class="three-col" style="margin-bottom: 44px;">
+        <div class="card">
+          <div class="meta">没人负责 · 知识不沉淀</div>
+          <h3>10 个人 = 10 套技能</h3>
+          <p style="font-size: 16px;">
+            每个人自己摸索一遍同一件事（"压日志 / 跑 Loki / 调多租户"），
+            <strong>等于 10 倍人力浪费</strong>，外加 10 个版本互不兼容的技能。
+            一年后这堆"个人沉淀"散在每人的本地，<em>团队层面什么都没留下</em>。
+          </p>
+        </div>
         <div class="card accent">
-          <div class="corner">Role</div>
-          <div class="meta">Directly Responsible Individual</div>
-          <h3>设一个 <em>DRI</em></h3>
-          <p style="font-size: 14px; color: var(--ink-soft);">
+          <div class="meta">不评审 · 回归成本翻倍</div>
+          <h3>产能 +50% 但 bug +50%</h3>
+          <p style="font-size: 16px;">
+            Claude 帮你写代码的速度大概翻倍 ——
+            <strong>如果评审标准也降了，bug 进生产的速度也跟着翻倍。</strong>
+            生产 bug 的修复成本是开发期的 10–100 倍。
+            提速没意义，提速 - 兜底成本才有意义。
+          </p>
+        </div>
+        <div class="card">
+          <div class="meta">不设围栏 · 合规风险</div>
+          <h3>HIS 数据外泄一次 = 多年信任</h3>
+          <p style="font-size: 16px;">
+            医院的患者信息、电子病历、HIS 数据是<strong>受监管数据</strong>。
+            一次让 Claude 把患者表 grep 进对话 + 截图分享 = 合规事故。
+            <em>设围栏的成本是改一个配置文件，事故的成本是说不清楚的</em>。
+          </p>
+        </div>
+      </div>
+
+      <!-- 三件具体的事 -->
+      <h3 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; letter-spacing: -0.025em; margin: 0 0 22px; color: var(--text);">
+        要管的三件事 · <em style="color: var(--accent); font-style: normal; font-weight: 500;">职责、目录、评审</em>
+      </h3>
+
+      <div class="three-col" style="margin-bottom: 44px;">
+        <div class="card accent">
+          <div class="meta">职责</div>
+          <h3>设一个<em>负责人</em></h3>
+          <p style="font-size: 16px;">
             根 <code>CLAUDE.md</code>、<code>.claude/rules/</code>、<code>.claude/skills/</code>、<code>settings.json</code> ——
-            这些都是<strong>代码资产</strong>，要有人负责。新出现的角色叫 <em>agent manager</em>：一半 PM 一半工程师。
+            这些都是<strong>需要维护的代码资产</strong>，得有名字写在上面。
+            Anthropic 内部叫这个角色 <em>agent manager</em>（技能管家），一半产品经理一半工程师，
+            负责审批新技能、淘汰旧规则、推广好做法。
           </p>
         </div>
         <div class="card">
-          <div class="corner">Catalog</div>
-          <div class="meta">Skills · Plugins · MCP</div>
-          <h3><em>审批</em>，然后共享</h3>
-          <p style="font-size: 14px; color: var(--ink-soft);">
-            谁都能写 skill，但<strong>哪些 skill 被推荐</strong>需要审批：安全、合规、与已有工作流是否重叠。
-            通过的进 <code>.claude/skills/</code> 或内部 plugin marketplace —— 不要让好做法停留在某个人的笔记里。
+          <div class="meta">目录</div>
+          <h3>先<em>围栏</em>，再放权</h3>
+          <p style="font-size: 16px;">
+            在 <code>.claude/settings.json</code> 里把<strong>禁止 Claude 接触</strong>的目录列出来，
+            比如 <code>patient_data/</code>、<code>his_export/</code>、密钥配置目录。
+            围栏不是"以防万一"——是<em>第一步</em>，先围再用，团队才敢放手。
           </p>
         </div>
         <div class="card">
-          <div class="corner">Review</div>
-          <div class="meta">Code Review · Same Bar</div>
-          <h3>走 <em>同一道</em>审查</h3>
-          <p style="font-size: 14px; color: var(--ink-soft);">
-            AI 写的代码不享受特殊待遇 —— PR 评审、测试要求、合规检查跟人写的代码<strong>一字不差</strong>。
-            Claude 帮你写得更快，不帮你绕过审查。
+          <div class="meta">评审</div>
+          <h3>AI 代码走<em>同一道</em>关</h3>
+          <p style="font-size: 16px;">
+            Claude 写的代码<strong>不享受特殊待遇</strong>——
+            PR 评审、测试覆盖、合规检查跟人写的代码一字不差。
+            Claude 帮你写得更快不等于帮你绕过评审；要是绕过评审，第一段那个"+50% bug"就是你的。
           </p>
         </div>
       </div>
 
-      <hr class="thick" />
+      <!-- 举例子 · 给本团队的可执行清单 -->
+      <h3 style="font-family: var(--font-display); font-size: 32px; font-weight: 400; letter-spacing: -0.025em; margin: 0 0 22px; color: var(--text);">
+        举个例子 · <em style="color: var(--accent); font-style: normal; font-weight: 500;">给本团队的明天清单</em>
+      </h3>
 
-      <h3 style="font-size: 36px; margin: 0 0 12px; font-family: var(--font-display);">放权的节奏：<em>先收紧，再放大</em>。</h3>
-      <p style="max-width: 64ch;">
-        官方观察到的成功路径不是"一夜之间全员开放"，而是<strong>基础设施先行，访问权后到</strong>。
-        从安全和监管角度，这也是医院团队该走的节奏。
-      </p>
-
-      <div class="flow">
-        <div class="flow-step">
-          <div class="step-n">i.</div>
-          <h3>基建</h3>
-          <div class="mode">Infrastructure First</div>
-          <p>先把 CLAUDE.md、rules、verify hook、内部 MCP 服务搭起来。<em>没基建就开放 = 各干各的</em>。</p>
-        </div>
-        <div class="flow-step">
-          <div class="step-n">ii.</div>
-          <h3>小圈试</h3>
-          <div class="mode">Restricted Pilot</div>
-          <p>少数人 · 经审批的 skill · 必走 code review。看清问题、攒经验。</p>
-        </div>
-        <div class="flow-step">
-          <div class="step-n">iii.</div>
-          <h3>跨职能定规矩</h3>
-          <div class="mode">Eng + Security + Governance</div>
-          <p>工程、安全、合规一桌讨论：什么数据可以进对话、什么命令必须 hook 拦截、哪些目录 deny。</p>
-        </div>
-        <div class="flow-step">
-          <div class="step-n">iv.</div>
-          <h3>扩面</h3>
-          <div class="mode">Expand with Confidence</div>
-          <p>跑顺了再扩 —— 更多人、更多 skill、更多自动化。<em>有信心地放，不是赌博式地放。</em></p>
-        </div>
+      <div style="border: 1px solid var(--border); border-radius: 8px; padding: 28px 32px; background: var(--bg-elevated); margin-bottom: 36px;">
+        <p style="margin: 0 0 16px;"><strong>下面这五件事，本周可以全部启动：</strong></p>
+        <ul style="margin: 0; padding-left: 22px; font-size: 16px; line-height: 1.85; color: var(--text-soft);">
+          <li>
+            <strong>① 指定一位负责人</strong> ——
+            本仓库的 <code>CLAUDE.md</code> / <code>.claude/</code> 配置由 Yaniel Yu 维护。
+            其他人改这些文件走 PR，他评审合并。
+          </li>
+          <li>
+            <strong>② 立一个内部频道（飞书群也行）</strong> ——
+            名字就叫"我又教 Claude 一遍"。任何人发现 <em>"我刚才给 Claude 解释的事下次还得解释一遍"</em>，
+            把那段贴进来。每月负责人挑出来沉淀成 rule 或 skill。
+          </li>
+          <li>
+            <strong>③ 每月一次"技能/规则评审会"</strong> ——
+            30 分钟，过一下 PR、过一下 rules、过一下 CLAUDE.md 有没有该删的（呼应第 06 章"约束有保质期"）。
+          </li>
+          <li>
+            <strong>④ 把患者数据目录加进 deny 清单</strong> ——
+            打开 <code>.claude/settings.json</code>，
+            <code>permissions.deny</code> 里加上 <code>patient_data/</code>、<code>his_export/</code>、
+            <code>**/credentials.*</code>、<code>**/*.env</code>。一次性的事。
+          </li>
+          <li>
+            <strong>⑤ 季度审一次 CLAUDE.md</strong> ——
+            每个季度 / 每次 Claude 大版本之后，整个团队 1 小时回头审：
+            哪条规则去年很重要、现在多余了？哪条还在被违反、其实该改成钩子？
+            <em>不审就是让它慢慢烂</em>。
+          </li>
+        </ul>
       </div>
 
-      <div class="two-col" style="margin-top: 50px;">
-        <div class="margin-note">
-          <strong>医院场景的特别提醒：</strong>HIS / 电子病历 / 患者信息是受监管数据。
-          先约定<em>哪些目录禁止 Claude 接触</em>（用 <code>.claude/settings.json</code> 的 <code>permissions.deny</code> 与 <code>.ignore</code> 规则），
-          再放开访问。不是不能用，是要在围栏内用。
-          <span class="src">Source · Claude Code at Scale §Regulated</span>
-        </div>
-        <div class="margin-note">
-          <strong>给本团队的具体动作：</strong>
-          指定一位 DRI（建议张毅）·
-          建一个内部 channel 收集"我又给 Claude 解释了一遍的事" ·
-          每月 1 次 skills/rules PR review 会 ·
-          每季度审一次 CLAUDE.md（呼应第 06 章"约束有保质期"）。
-          <span class="src">本仓库 · 团队约定</span>
-        </div>
+      <div class="margin-note" style="margin-bottom: 40px;">
+        <strong>关于放权节奏：</strong>
+        别一夜之间全员开放，先 3–5 个人小圈试 1–2 周
+        （技能要审批、PR 必走评审、有问题 1 小时内同步），
+        看清问题攒经验、再逐步扩面。
+        Anthropic 反复强调：<em>基础设施先行，访问权后到</em>。这个顺序反了，回头收拾比一开始就管贵 10 倍。
+        <span class="src">Source · Claude Code at Scale §Rollout</span>
       </div>
 
       <div class="folio"><span>№ 01</span><span>12 / 14 · GOVERNANCE</span><span>WHO OWNS THE HARNESS</span></div>
@@ -1750,33 +2366,87 @@ done</pre>
           所有的<em>模式</em> ——<br />
           都不是<em>定律</em>。
         </p>
-        <p style="max-width: 56ch; margin: 60px auto 0; font-style: italic; font-size: 19px; color: var(--ink-soft); text-align: left;">
+        <p style="max-width: 56ch; margin: 60px auto 0; font-size: 19px; color: var(--text-soft); text-align: left;">
           有时候你<em>应该</em>让上下文累积，因为你正在深入一个复杂问题，历史本身有价值。
           有时候你<em>应该</em>跳过 plan 模式，让 Claude 直接试错。
           有时候一个模糊的 prompt 恰恰是对的 —— 你想先看看 Claude 怎么理解，再去约束。
         </p>
-        <p style="max-width: 56ch; margin: 24px auto 0; font-style: italic; font-size: 19px; color: var(--ink-soft); text-align: left;">
+        <p style="max-width: 56ch; margin: 24px auto 0; font-size: 19px; color: var(--text-soft); text-align: left;">
           留意什么有效。Claude 产出漂亮代码时 —— 想想你做了什么。Claude 卡住时 —— 想想<em>为什么</em>。
           上下文太杂？prompt 太空？任务太大？时间久了，你会培养出一份这本手册<em>抓不到</em>的直觉。
         </p>
-        <hr class="thick" style="max-width: 200px; margin: 60px auto;" />
-        <div class="sig">
-          END · № 01 · 2026.05<br /><br />
-          · &nbsp; · &nbsp; ·
-        </div>
       </div>
 
-      <div style="margin-top: 80px; padding-top: 24px; border-top: 1px solid var(--rule); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
-        <div>
-          Sources<br />
-          <a href="https://code.claude.com/docs/en/best-practices" style="color: var(--accent); text-decoration: none;">Anthropic · Best Practices for Claude Code</a><br />
-          <a href="https://code.claude.com/docs/en/overview" style="color: var(--accent); text-decoration: none;">Anthropic · Claude Code Overview</a><br />
-          <a href="https://code.claude.com/docs/en/sub-agents" style="color: var(--accent); text-decoration: none;">Anthropic · Subagents</a><br />
+      <!-- ============================= 进阶阅读 / FURTHER READING ============================= -->
+      <div style="margin-top: 60px; padding-top: 48px; border-top: 1px solid var(--border-strong); text-align: left;">
+        <div class="eyebrow" style="margin-bottom: 22px;">Further Reading · 进阶阅读</div>
+        <h3 style="font-family: var(--font-display); font-size: 40px; font-weight: 400; letter-spacing: -0.025em; margin: 0 0 16px; color: var(--text);">
+          看完这 <em style="color: var(--accent); font-style: normal; font-weight: 500;">4 篇</em>，就到 80 分。
+        </h3>
+        <p style="max-width: 68ch; margin: 0 0 36px;">
+          不是泛泛的"AI 编程指南"，是 Anthropic 自己出的、定义"这工具该怎么用"的源头文档。
+          总时长约一个下午，按 01 → 04 顺序读，<strong>读完你比 95% 的工程师都更懂 Claude Code 该怎么用</strong>。
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+          <div class="card accent">
+            <div class="corner">01 · 必读</div>
+            <div class="meta">Anthropic Docs · 基础</div>
+            <h3>Best Practices for Claude Code</h3>
+            <p style="font-size: 15px;">
+              本手册一半内容的来源。<em>"give Claude a way to verify its work"</em>、CLAUDE.md 怎么写、Explore→Plan→Code→Commit 循环。
+              <strong>只读一篇 —— 读这篇。</strong>
+            </p>
+            <a href="https://code.claude.com/docs/en/best-practices" style="display: inline-block; margin-top: 10px; font-family: var(--font-mono); font-size: 14px; border-bottom-color: var(--border-strong);">code.claude.com/docs/en/best-practices&nbsp;→</a>
+          </div>
+
+          <div class="card">
+            <div class="corner">02 · 必读</div>
+            <div class="meta">Anthropic Blog · 规模化</div>
+            <h3>Claude Code Works in Large Codebases</h3>
+            <p style="font-size: 15px;">
+              本手册第 02 章金句 <em>"harness &gt; model"</em> 的源头。还讲：CLAUDE.md 分层、DRI 角色、放权节奏 ——
+              团队治理那一套（第 12 章）的纲领文件。
+            </p>
+            <a href="https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start" style="display: inline-block; margin-top: 10px; font-family: var(--font-mono); font-size: 14px; border-bottom-color: var(--border-strong);">claude.com/blog/how-claude-code-works-in-large-codebases&nbsp;→</a>
+          </div>
+
+          <div class="card">
+            <div class="corner">03 · 推荐</div>
+            <div class="meta">Anthropic Blog · 真实玩法</div>
+            <h3>How Anthropic Teams Use Claude Code</h3>
+            <p style="font-size: 15px;">
+              Anthropic 内部团队（数据基础设施、产品工程、增长、SecOps、客户支持……）<em>怎么真的把这工具用进日常工作</em>。
+              具体到 prompt、skill、工作流 —— 偷得到的真东西。
+            </p>
+            <a href="https://claude.com/blog/how-anthropic-teams-use-claude-code" style="display: inline-block; margin-top: 10px; font-family: var(--font-mono); font-size: 14px; border-bottom-color: var(--border-strong);">claude.com/blog/how-anthropic-teams-use-claude-code&nbsp;→</a>
+          </div>
+
+          <div class="card">
+            <div class="corner">04 · 深读</div>
+            <div class="meta">Anthropic Docs · 深度</div>
+            <h3>Subagents</h3>
+            <p style="font-size: 15px;">
+              Subagent 是被严重低估的能力 —— 本手册第 03、07、10 章反复提到。<em>怎么写、什么时候派、怎么回传摘要</em>，
+              官方文档把所有细节讲透了。读完不会再"开 5 个 agent 浪费 token"。
+            </p>
+            <a href="https://code.claude.com/docs/en/sub-agents" style="display: inline-block; margin-top: 10px; font-family: var(--font-mono); font-size: 14px; border-bottom-color: var(--border-strong);">code.claude.com/docs/en/sub-agents&nbsp;→</a>
+          </div>
         </div>
-        <div style="text-align: right;">
-          Tailored for<br />
-          <span style="color: var(--ink);">JeecgBoot · Hospital Branch</span><br />
-          张毅 · 2026.05.19
+
+        <p style="margin-top: 32px; font-size: 15px; color: var(--text-faint);">
+          每篇约 15–30 分钟。加起来一个下午。再加本手册第 11 章 <code>JeecgBoot</code> 仓库的 <code>.claude/</code> 树 ——
+          理论 + 实战双轨，就齐了。
+        </p>
+      </div>
+
+      <!-- ============================= END SIGNATURE ============================= -->
+      <div class="coda" style="padding: 60px 0 30px;">
+        <hr class="thick" style="max-width: 200px; margin: 0 auto 32px;" />
+        <div class="sig">
+          END · № 01 · 2026.05<br />
+          Tailored for JeecgBoot · Hospital Branch<br />
+          Yaniel Yu · 2026.05.19
         </div>
       </div>
 
@@ -1784,7 +2454,11 @@ done</pre>
     </section>
 
     <script>
-      // keyboard navigation between sections
+      // ============= keyboard navigation =============
+      // PageDown / Space / ArrowDown — scroll within current chapter first,
+      // jump to next chapter only when current chapter has nothing more to show.
+      // PageUp / ArrowUp — mirror upward.
+
       const sections = Array.from(document.querySelectorAll('section.spread'));
       const indexLinks = Array.from(document.querySelectorAll('.index a'));
 
@@ -1796,34 +2470,105 @@ done</pre>
         return 0;
       }
 
-      function goTo(i) {
+      function goToChapter(i) {
         const idx = Math.max(0, Math.min(sections.length - 1, i));
         sections[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      function advance() {
+        const i = currentSection();
+        const sec = sections[i];
+        const secBottom = sec.offsetTop + sec.offsetHeight;
+        const viewBottom = window.scrollY + window.innerHeight;
+        const slack = window.innerHeight * 0.08; // ~8vh tolerance
+
+        if (secBottom - viewBottom > slack) {
+          // still content below in this chapter — page within it
+          const target = Math.min(
+            window.scrollY + window.innerHeight * 0.88,
+            secBottom - window.innerHeight + 1
+          );
+          window.scrollTo({ top: target, behavior: 'smooth' });
+        } else {
+          // at the bottom — go to next chapter
+          goToChapter(i + 1);
+        }
+      }
+
+      function retreat() {
+        const i = currentSection();
+        const sec = sections[i];
+        const slack = window.innerHeight * 0.08;
+
+        if (window.scrollY - sec.offsetTop > slack) {
+          // still room to scroll up within current chapter
+          const target = Math.max(window.scrollY - window.innerHeight * 0.88, sec.offsetTop);
+          window.scrollTo({ top: target, behavior: 'smooth' });
+        } else {
+          // at the top — go to previous chapter
+          goToChapter(i - 1);
+        }
       }
 
       document.addEventListener('keydown', (e) => {
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
         if (e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') {
           e.preventDefault();
-          goTo(currentSection() + 1);
+          advance();
         } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
           e.preventDefault();
-          goTo(currentSection() - 1);
+          retreat();
         } else if (e.key === 'Home') {
           e.preventDefault();
-          goTo(0);
+          goToChapter(0);
         } else if (e.key === 'End') {
           e.preventDefault();
-          goTo(sections.length - 1);
+          goToChapter(sections.length - 1);
         }
       });
 
-      // active link highlighting
+      // ============= "more below" indicator for long chapters =============
+      const moreHint = document.createElement('div');
+      moreHint.id = 'more-hint';
+      moreHint.innerHTML = '本章还有内容&nbsp;<span style="font-size: 1.4em; line-height: 0;">▾</span>';
+      Object.assign(moreHint.style, {
+        position: 'fixed',
+        bottom: '24px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: '40',
+        padding: '8px 16px',
+        background: 'rgba(8, 145, 178, 0.92)',
+        color: '#ffffff',
+        fontFamily: 'var(--font-mono)',
+        fontSize: '12px',
+        letterSpacing: '0.12em',
+        textTransform: 'uppercase',
+        borderRadius: '999px',
+        boxShadow: '0 4px 16px rgba(8, 145, 178, 0.25)',
+        opacity: '0',
+        transition: 'opacity 0.25s',
+        pointerEvents: 'none',
+      });
+      document.body.appendChild(moreHint);
+
+      function updateMoreHint() {
+        const i = currentSection();
+        const sec = sections[i];
+        const secBottom = sec.offsetTop + sec.offsetHeight;
+        const viewBottom = window.scrollY + window.innerHeight;
+        const hasMore = secBottom - viewBottom > window.innerHeight * 0.12;
+        moreHint.style.opacity = hasMore ? '0.95' : '0';
+      }
+
+      // ============= active index highlight =============
       const updateActive = () => {
         const i = currentSection();
         indexLinks.forEach((a, idx) => a.classList.toggle('active', idx === i));
+        updateMoreHint();
       };
       window.addEventListener('scroll', updateActive, { passive: true });
+      window.addEventListener('resize', updateActive, { passive: true });
       updateActive();
     </script>
   </body>
